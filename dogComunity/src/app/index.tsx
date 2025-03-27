@@ -29,7 +29,6 @@ export default function Start() {
             </View>
 
             <View className="flex items-center justify-center mt-5 gap-6 p-8">
-
                 <Pressable
                     onPress={() => router.push("/Pages/SignIn")}
                     className="w-full p-6 flex items-center justify-center rounded"
@@ -44,8 +43,6 @@ export default function Start() {
                 >
                     <Text className="font-medium text-2xl">Cadastrar</Text>
                 </Pressable>
-
-
             </View>
         </View>
     );

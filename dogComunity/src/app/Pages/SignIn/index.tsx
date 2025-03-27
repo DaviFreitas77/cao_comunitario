@@ -2,10 +2,19 @@ import { View, Text, Image, Pressable, StatusBar, TextInput, ScrollView, Keyboar
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from "expo-router";
 import { useState } from "react";
+import { useForm, Controller } from 'react-hook-form'
 
 export default function SignIn() {
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+    const { control, handleSubmit, formState: { errors } } = useForm({
+        defaultValues: {
+            email: '',
+            password: ''
+        }
+
+    })
+
+    const onSubmit = (data: any) => console.log(data)
+
 
     const router = useRouter();
 
@@ -21,7 +30,7 @@ export default function SignIn() {
                 >
                     <StatusBar barStyle="dark-content" backgroundColor="#CCF4DC" />
 
-                    {/* Botão de voltar */}
+
                     <Pressable
                         onPress={() => router.back()}
                         className="pl-5 pt-5"
@@ -39,7 +48,6 @@ export default function SignIn() {
                         />
                     </View>
 
-                    {/* Área do formulário */}
                     <View
                         className="w-full flex items-center gap-6 p-8 rounded-tl-3xl rounded-tr-3xl"
                         style={{
@@ -60,38 +68,65 @@ export default function SignIn() {
                             />
                         </View>
 
+                        <View className='w-full'>
 
-                        <TextInput
-                            placeholder="Email"
-                            className="w-full pl-3 p-5 rounded text-lg bg-white"
-                            value={email}
-                            onChangeText={setEmail}
-                            keyboardType="email-address"
-                            autoCapitalize="none"
-                            style={{
-                                borderColor: '#CCF4DC',
-                                borderWidth: 1,
-                            }}
-                        />
+                            <Controller
+                                control={control}
+                                name='email'
+                                rules={{ required: 'o email é obrigatório' }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <TextInput
+                                        placeholder="Email"
+                                        className="w-full pl-3 p-5 rounded text-lg bg-white"
+                                        value={value}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+
+                                        style={{
+                                            borderColor: errors.email ? 'red' : '#CCF4DC',
+                                            borderWidth: 1,
+                                        }}
+
+                                    />
+                                )}
+
+                            />
+                            {errors.email && <Text style={{ color: 'red' }}>{errors.email.message}</Text>}
+                        </View>
 
 
-                        <TextInput
-                            placeholder="Senha"
-                            className="w-full pl-3 p-5 rounded text-lg bg-white"
-                            value={password}
-                            onChangeText={setPassword}
-                            secureTextEntry
-                            style={{
-                                borderColor: '#CCF4DC',
-                                borderWidth: 1,
-                            }}
-                        />
 
+
+                        <View className="w-full">
+                            <Controller
+                                control={control}
+                                name='password'
+                                rules={{ required: 'a senha é obrigatória' }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <TextInput
+                                        placeholder="Senha"
+                                        className="w-full pl-3 p-5 rounded text-lg bg-white"
+                                        value={value}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        secureTextEntry
+                                        style={{
+                                            borderColor: errors.password ? 'red' : '#CCF4DC',
+                                            borderWidth: 1,
+                                        }}
+                                    />
+                                )}
+
+                            />
+                            {errors.password && <Text style={{ color: 'red' }}>{errors.password.message}</Text>}
+                        </View>
 
                         <Pressable
+
+                            onPress={handleSubmit(onSubmit)}
                             className="w-full p-6 flex items-center justify-center rounded"
                             style={{ backgroundColor: '#CCF4DC' }}
-                            onPress={() => console.log("Login pressionado")}
+
                         >
                             <Text className="font-medium text-2xl">Entrar</Text>
                         </Pressable>
