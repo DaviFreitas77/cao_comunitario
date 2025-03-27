@@ -48,7 +48,7 @@ export default function SignUp() {
 
                     <View className="flex-1 items-center justify-center mt-10">
                         <Image
-                            source={require('../../../assets/images/login/dog.png')}
+                            source={require('../../../../assets/images/login/dog.png')}
 
                             resizeMode="contain"
                         />
@@ -70,7 +70,7 @@ export default function SignUp() {
 
                         <View className="flex items-center justify-center">
                             <Image
-                                source={require('../../../assets/images/login/comunitario.png')}
+                                source={require('../../../../assets/images/login/comunitario.png')}
                                 style={{ width: 370, height: 120 }}
                             />
                         </View>
