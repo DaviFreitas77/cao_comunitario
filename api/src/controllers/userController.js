@@ -7,7 +7,7 @@ const authConfig = require('../config/auth.json');
 function generateToken(params ={}){
     return jwt.sign(params, authConfig.secret, {
         expiresIn: 86400,
-    });//1 dia
+    });
 }
 
 module.exports = {
@@ -64,20 +64,21 @@ module.exports = {
 
     async store(req, res) {
         try {
-            const { name, password, email } = req.body;
-            if (!name || !password || !email) {
+            const { name, password, email,number,image } = req.body;
+            if (!name || !password || !email || !number || !image) {
                 return res.status(400).send('Campos obrigatórios não preenchidos');
             }
+            const user = await User.create({ name, password, email,number,image });
             
             const token = generateToken({id: user.id});
 
-            const user = await User.create({ name, password, email });
             return res.status(201).send({
                 user,
                 token
             });
         } catch (error) {
-            return res.status(500).send(err);
+            console.log("Erro ao criar usuário:", error);
+            return res.status(500).send(error);
         }
 
     },
@@ -96,10 +97,6 @@ module.exports = {
         } catch (error) {
             return res.status(500).send(error);
         }
-
-
-
-
     },
 
     async delete(req, res) {
@@ -112,8 +109,5 @@ module.exports = {
         } catch (error) {
             return res.status(500).send('Erro ao excluir usuário');
         }
-
-
-
     }
 }
