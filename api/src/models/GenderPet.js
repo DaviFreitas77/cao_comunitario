@@ -10,6 +10,10 @@ class GenderPet extends Model{
             sequelize
         })
     }
+
+    static associate(models){
+        this.hasMany(models.Pet,{foreignKey:'genderPet',as:'gender'})
+    }
 }
 
 module.exports = GenderPet;

@@ -18,6 +18,9 @@ class User extends Model{
             }
         })
     }
+    static associate(models) {
+        this.hasMany(models.Pet, { foreignKey: 'onwerPet', as: 'pets' });
+    }
 }
 
 module.exports = User;

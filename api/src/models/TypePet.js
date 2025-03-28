@@ -10,6 +10,12 @@ class TypePet extends Model{
             tableName: 'typePet'  
         })
     }
+
+
+    static associate(models){
+           // Relacionando TypePet com Pet, onde TypePet tem muitos Pets
+        this.hasMany(models.Pet,{foreignKey:'typePet', as:'type'})
+    }
 }
 
 module.exports = TypePet;

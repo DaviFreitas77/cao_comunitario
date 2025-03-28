@@ -10,6 +10,10 @@ class AgePet extends Model{
             tableName:'agepet'
         })
     }
+
+    static associate(models){
+        this.hasMany(models.Pet,{foreignKey:'agePet',as :'afe'})
+    }
 }
 
 module.exports = AgePet;

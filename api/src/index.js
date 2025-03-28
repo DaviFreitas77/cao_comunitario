@@ -9,9 +9,11 @@ const typePet = require('./routes/typePet')
 const age = require('./routes/agePet')
 const genderPet = require('./routes/genderPet')
 
+
 app.use('/api', userRoute); 
 app.use('/api', petRoute);
 app.use('/api/',typePet)
 app.use('/api/',age)
 app.use('/api/',genderPet)
+
 app.listen(3000);
