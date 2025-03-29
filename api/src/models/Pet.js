@@ -46,6 +46,9 @@ class Pet extends Model{
         this.belongsTo(models.GenderPet,{foreignKey:'genderPet',as: 'gender'})
         
         this.hasMany(models.TemperamentPetRelationship, { foreignKey: 'fkPet', as: 'temperaments' });
+
+
+        this.hasMany(models.CareRelationship,{foreignKey:"fkPet",as: 'cares'});
     }
 
 }

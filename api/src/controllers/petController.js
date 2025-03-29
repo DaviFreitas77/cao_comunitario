@@ -5,6 +5,8 @@ const AgePet = require('../models/AgePet')
 const GenderPet = require('../models/GenderPet')
 const TemperamentRelationship = require('../models/TemperamentRelationship')
 const TemperamentPet = require("../models/TemperamentPet")
+const CareRelationship = require('../models/CareRelationship')
+const Carepet = require('../models/CarePet')
 
 module.exports = {
     async index(req, res) {
@@ -34,12 +36,21 @@ module.exports = {
                         attributes: ['nameGender']
                     },
                     {
-                        model: TemperamentRelationship, 
-                        as: "temperaments", 
+                        model: TemperamentRelationship,
+                        as: "temperaments",
                         include: {
                             model: TemperamentPet, // A tabela de temperamento
-                            as: "temperament", 
+                            as: "temperament",
                             attributes: ['nameTemperament'] // Traga o campo nameTemperament
+                        }
+                    },
+                    {
+                        model:CareRelationship,
+                        as:"cares",
+                        include:{
+                            model:Carepet,
+                            as:"descCares",
+                            attributes:['nameCare']
                         }
                     }
                 ]
@@ -58,20 +69,29 @@ module.exports = {
 
     async store(req, res) {
         try {
-            const { namePet, aboutPet, typePet, imagePet, genderPet, agePet, fkTemperament } = req.body;
+            const { namePet, aboutPet, typePet, imagePet, genderPet, agePet, fkTemperament, fkCare } = req.body;
 
 
-            if (!namePet || !typePet || !imagePet || !genderPet || !agePet || !fkTemperament) {
-                return res.status(400).json({ message: "Dados inválidos" });
+            if (!namePet || !typePet || !imagePet || !genderPet || !agePet || !fkTemperament || !fkCare) {
+                return res.status(400).json({ message: "preencha todos os campos" });
             }
 
             const userId = req.userId;
 
             const pet = await Pet.create({ namePet, aboutPet, typePet, imagePet, genderPet, agePet, onwerPet: userId })
 
+            if (Array.isArray(fkCare)) {
+                fkCare.forEach(async (care) => {
+                    console.log(care)
+                    await CareRelationship.create({
+                        fkCare: care,
+                        fkPet: pet.id
+                    })
+                })
+            }
+
             if (Array.isArray(fkTemperament)) {
                 fkTemperament.forEach(async (temperament) => {
-                    console.log(temperament)
                     await TemperamentRelationship.create({
                         fkTemperament: temperament,
                         fkPet: pet.id // Usando o ID do pet criado
