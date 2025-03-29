@@ -9,6 +9,7 @@ const typePet = require('./routes/typePet')
 const age = require('./routes/agePet')
 const genderPet = require('./routes/genderPet')
 const temperamentPet = require('./routes/temperament')
+const carePet = require('./routes/carePet')
 
 
 app.use('/api', userRoute); 
@@ -17,5 +18,7 @@ app.use('/api/',typePet)
 app.use('/api/',age)
 app.use('/api/',genderPet)
 app.use('/api/',temperamentPet)
+app.use('/api/',carePet)
+
 
 app.listen(3000);
