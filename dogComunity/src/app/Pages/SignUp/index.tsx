@@ -10,16 +10,12 @@ export default function SignUp() {
             email: '',
             number: '',
             password: '',
+       
         }
 
     })
 
     const onSubmit = (data: any) => console.log(data)
-
-    const [name, setName] = useState<string>('')
-    const [number, setNumber] = useState<string>('')
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
 
 
     const router = useRouter();
@@ -173,7 +169,7 @@ export default function SignUp() {
 
 
                         <Pressable
-                            onPress={handleSubmit(onSubmit)}
+                            onPress={()=>router.push('/Pages/registerPhotoUser')}
                             className="w-full p-6 flex items-center justify-center rounded"
                             style={{ backgroundColor: '#CCF4DC' }}
 
