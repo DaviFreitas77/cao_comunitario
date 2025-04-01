@@ -1,9 +1,19 @@
 import { View, Text, Image, Pressable, StatusBar, TextInput, ScrollView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from "react-native";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm, Controller } from 'react-hook-form'
+import { Context } from "@/src/context/provider";
 export default function SignUp() {
+    const router = useRouter();
+    const context = useContext(Context);
+
+    if (!context) {
+        throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
+    }
+
+    const { setName,setEmail,setPassword,setNumber } = context;
+
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             name: '',
@@ -15,10 +25,15 @@ export default function SignUp() {
 
     })
 
-    const onSubmit = (data: any) => console.log(data)
+    const onSubmit = (data: any) =>{
+        setName(data.name)
+        setEmail(data.email)
+        setNumber(data.number)
+        setPassword(data.password)
+        router.push('/Pages/registerPhotoUser')
+    }
 
 
-    const router = useRouter();
 
     return (
         <KeyboardAvoidingView
@@ -83,7 +98,6 @@ export default function SignUp() {
                                         value={value}
                                         onBlur={onBlur}
                                         onChangeText={onChange}
-                                        secureTextEntry
                                         style={{
                                             borderColor: errors.name ? 'red' : '#CCF4DC',
                                             borderWidth: 1,
@@ -169,12 +183,13 @@ export default function SignUp() {
 
 
                         <Pressable
-                            onPress={()=>router.push('/Pages/registerPhotoUser')}
+                           
+                            onPress={handleSubmit(onSubmit)} 
                             className="w-full p-6 flex items-center justify-center rounded"
                             style={{ backgroundColor: '#CCF4DC' }}
 
                         >
-                            <Text className="font-medium text-2xl">Cadastrar</Text>
+                            <Text className="font-medium text-2xl">Próximo</Text>
                         </Pressable>
                     </View>
                 </ScrollView>

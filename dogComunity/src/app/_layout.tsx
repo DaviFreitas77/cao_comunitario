@@ -1,6 +1,10 @@
 import { Slot } from "expo-router";
 import "../styles/global.css"
-
+import { AppProvider } from "../context/provider";
 export default function RootLayout() {
-  return <Slot />;
+  return (
+    <AppProvider>
+      <Slot />
+    </AppProvider>
+  );
 }

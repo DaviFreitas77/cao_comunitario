@@ -54,7 +54,7 @@ export default function SignIn() {
                             className="w-full p-6 flex items-center justify-center rounded"
                             style={{ backgroundColor: '#CCF4DC' }}
                         >
-                            <Text className="font-medium text-2xl">Próximo</Text>
+                            <Text className="font-medium text-2xl">Cadastrar</Text>
                         </Pressable>
                     </View>
                 </ScrollView>
