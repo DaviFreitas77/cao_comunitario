@@ -11,7 +11,7 @@ export default function SignIn() {
             try {
                 const logged = await SecureStore.getItemAsync('name');
                 if (logged) {
-                    router.replace('/Pages/Home');
+                    router.replace('/tabs/home');
                 }
             } catch (error) {
                 console.error('Erro ao verificar o token:', error);
