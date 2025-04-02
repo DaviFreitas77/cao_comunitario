@@ -3,8 +3,13 @@ import * as SecureStore from 'expo-secure-store'
 import { useContext, useEffect } from "react";
 import { Context } from "@/src/context/provider";
 import { StatusBar } from "react-native";
+import * as Location from 'expo-location';
+import { useState } from "react";
 export default function Home() {
+
   const context = useContext(Context)
+  const [location, setLocation] = useState<string>('');
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   if (!context) {
     throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
   }
@@ -30,6 +35,31 @@ export default function Home() {
     };
 
     loadUserData();
+  }, [name]);
+
+
+  useEffect(() => {
+    async function getCurrentLocation() {
+      try {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          setErrorMsg('Permissão não autorizada');
+          return;
+        }
+        let location = await Location.getCurrentPositionAsync({});
+        let address = await Location.reverseGeocodeAsync(location.coords);
+        if (address.length > 0) {
+          console.log(address[0].region);
+          setLocation(address[0].region || 'Localização desconhecida')
+        }
+      } catch (error) {
+        console.error(error)
+      }
+
+
+    }
+
+    getCurrentLocation();
   }, []);
 
 
