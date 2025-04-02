@@ -36,7 +36,7 @@ export default function Home() {
     <View>
       <View className="flex-row items-center w-full justify-between p-2">
      <View>
-       <Text className="text-2xl color-gray-400">Olá</Text>
+       <Text className="text-2xl color-gray-500">Olá</Text>
        <Text className="text-lg text-3xl">{name}</Text>
      </View>
     <Image
