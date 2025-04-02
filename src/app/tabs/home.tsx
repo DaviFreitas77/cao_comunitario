@@ -50,7 +50,7 @@ export default function Home() {
       <View className="mt-4">
         <Image
           source={require('../../../assets/images/carrossel/cat.jpg')}
-          className="w-full h-60 rounded"
+          className="w-full h-60 rounded-2xl"
         />
       </View>
       <StatusBar
