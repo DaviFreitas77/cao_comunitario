@@ -17,8 +17,9 @@
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
     "@hookform/resolvers": "^5.0.0",
-    "@react-navigation/bottom-tabs": "^7.2.0",
-    "@react-navigation/native": "^7.0.15",
+    "@react-navigation/bottom-tabs": "^7.3.5",
+    "@react-navigation/elements": "^2.3.3",
+    "@react-navigation/native": "^7.1.1",
     "@react-navigation/native-stack": "^7.2.1",
     "@react-navigation/stack": "^7.1.2",
     "@tanstack/react-query": "^5.71.1",
@@ -31,7 +32,8 @@
     "expo-image-picker": "~16.0.6",
     "expo-linking": "~7.0.5",
     "expo-media-library": "~17.0.6",
-    "expo-router": "~4.0.18",
+    "expo-router": "~4.0.19",
+    "expo-secure-store": "~14.0.1",
     "expo-splash-screen": "~0.29.22",
     "expo-status-bar": "~2.0.1",
     "expo-symbols": "~0.2.2",
@@ -54,7 +56,7 @@
     "react-query": "^3.39.3",
     "tailwindcss": "^3.4.17",
     "yup": "^1.6.1",
-    "expo-secure-store": "~14.0.1"
+    "expo-location": "~18.0.10"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

@@ -16,7 +16,7 @@ export default function RegisterPhoto() {
         throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
     }
 
-    const { name, email, password, number } = context;
+    const { name, email, password, number,url} = context;
 
     const router = useRouter();
     const opacity = useRef(new Animated.Value(0)).current;
@@ -82,7 +82,7 @@ export default function RegisterPhoto() {
                 console.error("Todos os campos são obrigatórios!");
                 return;
             }
-            const response = await axios.post('https://e7e5-2804-7f0-b900-b8bd-dc9b-69a5-71cb-da0c.ngrok-free.app/api/users', {
+            const response = await axios.post(`${url}/api/users`, {
                 name,
                 email,
                 password,
@@ -92,9 +92,9 @@ export default function RegisterPhoto() {
      
         
             await saveToken(response.data.token,response.data.user.name,response.data.user.number,response.data.user.image,response.data.user.email)
-            router.replace('/Pages/Home')
+            router.replace('/tabs/home')
         } catch (error) {
-            console.error(error);
+            console.error('erro',error);
         } finally {
             setLoading(false)
         }
