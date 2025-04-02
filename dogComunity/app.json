@@ -39,7 +39,8 @@
         {
           "photosPermission": "O aplicativo acessa suas fotos para que você possa selecionar uma para definir como foto de perfil."
         }
-      ]
+      ],
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true

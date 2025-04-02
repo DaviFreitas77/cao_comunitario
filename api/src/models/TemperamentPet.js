@@ -4,7 +4,7 @@ const { Model, DataTypes } = require("sequelize");
 class TemperamentPet extends Model{
     static init(sequelize){
         super.init({
-            nameTemperament:DataTypes.STRING
+            nameTemperament:DataTypes.STRING 
         },{
             sequelize,
             tableName:"temperamentpet"

@@ -1,10 +1,12 @@
 import { View, Text, Image, Pressable, StatusBar, TextInput, ScrollView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from "react-native";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from "expo-router";
-import { useState } from "react";
 import { useForm, Controller } from 'react-hook-form'
+import * as SecureStore from 'expo-secure-store';
 
 export default function SignIn() {
+    const router = useRouter()
+
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             email: '',
@@ -14,9 +16,7 @@ export default function SignIn() {
     })
 
     const onSubmit = (data: any) => console.log(data)
-
-
-    const router = useRouter();
+        ;
 
     return (
         <KeyboardAvoidingView

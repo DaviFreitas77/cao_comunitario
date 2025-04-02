@@ -4,28 +4,32 @@ import { useRouter } from "expo-router";
 import { useContext, useState } from "react";
 import { useForm, Controller } from 'react-hook-form'
 import { Context } from "@/src/context/provider";
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup';
+import { TextInputMask } from 'react-native-masked-text';
+import * as SecureStore from 'expo-secure-store';
 export default function SignUp() {
     const router = useRouter();
     const context = useContext(Context);
-
     if (!context) {
         throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
     }
 
-    const { setName,setEmail,setPassword,setNumber } = context;
+    const { setName, setEmail, setPassword, setNumber } = context;
 
+
+    const validationSchema = yup.object().shape({
+        name: yup.string().min(4, "no minimo 4 caracteres").required("o nome é obrigatório"),
+        email: yup.string().email('Email inválido').required('Email é obrigatório'),
+        password: yup.string().min(8, 'A senha deve ter pelo menos 8 caracteres').required('Senha é obrigatória'),
+        number: yup.string().min(12, "o numero deve conter no minímo 11 caracteres").required('o numero é obrigatório')
+    })
     const { control, handleSubmit, formState: { errors } } = useForm({
-        defaultValues: {
-            name: '',
-            email: '',
-            number: '',
-            password: '',
-       
-        }
+        resolver: yupResolver(validationSchema)
 
     })
 
-    const onSubmit = (data: any) =>{
+    const onSubmit = (data: any) => {
         setName(data.name)
         setEmail(data.email)
         setNumber(data.number)
@@ -67,7 +71,7 @@ export default function SignUp() {
 
                     {/* Área do formulário */}
                     <View
-                        className="w-full flex items-center gap-6 p-8 rounded-tl-3xl rounded-tr-3xl"
+                        className="w-full flex items-center gap-6 p-4 rounded-tl-3xl rounded-tr-3xl"
                         style={{
                             backgroundColor: "white",
                             shadowColor: "#000",
@@ -140,16 +144,24 @@ export default function SignUp() {
                                 name='number'
                                 rules={{ required: 'o número é obrigatório' }}
                                 render={({ field: { onChange, onBlur, value } }) => (
-                                    <TextInput
+                                    <TextInputMask
+                                        type="custom"
+                                        options={{
+                                            mask: '99 99999-9999'
+                                        }}
                                         placeholder="Número/whatsap"
-                                        className="w-full pl-3 p-5 rounded text-lg bg-white"
                                         value={value}
                                         onBlur={onBlur}
                                         onChangeText={onChange}
                                         keyboardType="numeric"
                                         style={{
+                                            width: '100%',
+                                            paddingVertical: 20,
+                                            paddingLeft: 15,
+                                            backgroundColor: 'white',
                                             borderColor: errors.number ? 'red' : '#CCF4DC',
                                             borderWidth: 1,
+                                            borderRadius: 5,
                                         }}
                                     />
                                 )}
@@ -157,34 +169,34 @@ export default function SignUp() {
                             {errors.number && <Text style={{ color: 'red' }}>{errors.number.message}</Text>}
                         </View>
 
-                     <View className="w-full">
-                            <Controller 
-                            control={control}
-                            name='password'
-                            rules={{ required: 'a senha é obrigatória' }}
-                            render={({ field: { onChange, onBlur, value } }) => (
-                                <TextInput
-                                    placeholder="Senha"
-                                    className="w-full pl-3 p-5 rounded text-lg bg-white"
-                                    value={value}
-                                    onBlur={onBlur}
-                                    onChangeText={onChange}
-                                    secureTextEntry
-                                    style={{
-                                        borderColor: errors.password ? 'red' : '#CCF4DC',
-                                        borderWidth: 1,
-                                    }}
-                                />
-                            )}
+                        <View className="w-full">
+                            <Controller
+                                control={control}
+                                name='password'
+                                rules={{ required: 'a senha é obrigatória' }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <TextInput
+                                        placeholder="Senha"
+                                        className="w-full pl-3 p-5 rounded text-lg bg-white"
+                                        value={value}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        secureTextEntry
+                                        style={{
+                                            borderColor: errors.password ? 'red' : '#CCF4DC',
+                                            borderWidth: 1,
+                                        }}
+                                    />
+                                )}
                             />
                             {errors.password && <Text style={{ color: 'red' }}>{errors.password.message}</Text>}
-                     </View>
+                        </View>
 
 
 
                         <Pressable
-                           
-                            onPress={handleSubmit(onSubmit)} 
+
+                            onPress={handleSubmit(onSubmit)}
                             className="w-full p-6 flex items-center justify-center rounded"
                             style={{ backgroundColor: '#CCF4DC' }}
 
