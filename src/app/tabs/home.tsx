@@ -5,6 +5,7 @@ import { Context } from "@/src/context/provider";
 import { StatusBar } from "react-native";
 import * as Location from 'expo-location';
 import { useState } from "react";
+import Categories from "@/src/components/categories";
 export default function Home() {
 
   const context = useContext(Context)
@@ -83,6 +84,7 @@ export default function Home() {
           className="w-full h-60 rounded-2xl"
         />
       </View>
+    <Categories/>
       <StatusBar
         barStyle="light-content"
         backgroundColor="#CCF4DC"
