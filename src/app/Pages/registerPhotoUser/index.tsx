@@ -92,7 +92,7 @@ export default function RegisterPhoto() {
      
         
             await saveToken(response.data.token,response.data.user.name,response.data.user.number,response.data.user.image,response.data.user.email)
-            router.replace('/Pages/Home')
+            router.replace('/tabs/home')
         } catch (error) {
             console.error(error);
         } finally {
