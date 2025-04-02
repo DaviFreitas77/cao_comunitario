@@ -1,35 +1,37 @@
-const {Model,DataTypes} = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 
 
-class Pet extends Model{
-    static init(sequelize){
+class Pet extends Model {
+    static init(sequelize) {
         super.init({
-            namePet:DataTypes.STRING,
-            aboutPet:DataTypes.STRING,
-            typePet:{
-                type:DataTypes.INTEGER,
-                references:{
-                    model:'TypePet',
-                    key:'id'
+            namePet: DataTypes.STRING,
+            aboutPet: DataTypes.STRING,
+            typePet: {
+                type: DataTypes.INTEGER,
+                references: {
+                    model: 'TypePet',
+                    key: 'id'
                 }
             },
-            imagePet:DataTypes.STRING,
-            genderPet:DataTypes.INTEGER,
-            agePet:{
-                type:DataTypes.INTEGER,
-                references:{
-                    model:'AgePet',
-                    key:'id'
+            imagePet: DataTypes.STRING,
+            genderPet: DataTypes.INTEGER,
+            agePet: {
+                type: DataTypes.INTEGER,
+                references: {
+                    model: 'AgePet',
+                    key: 'id'
                 }
             },
             onwerPet: {
                 type: DataTypes.INTEGER,
                 references: {
                     model: 'Users',
-                    key: 'id' 
+                    key: 'id'
                 }
-            }
-        },{
+            },
+            city:DataTypes.STRING
+            
+        }, {
             sequelize
         })
     }
@@ -41,14 +43,14 @@ class Pet extends Model{
         // Um pet pertence a um tipo
         this.belongsTo(models.TypePet, { foreignKey: 'typePet', as: 'type' });
 
-        this.belongsTo(models.AgePet,{foreignKey:'agePet',as: 'age'});
+        this.belongsTo(models.AgePet, { foreignKey: 'agePet', as: 'age' });
 
-        this.belongsTo(models.GenderPet,{foreignKey:'genderPet',as: 'gender'})
-        
+        this.belongsTo(models.GenderPet, { foreignKey: 'genderPet', as: 'gender' })
+
         this.hasMany(models.TemperamentPetRelationship, { foreignKey: 'fkPet', as: 'temperaments' });
 
 
-        this.hasMany(models.CareRelationship,{foreignKey:"fkPet",as: 'cares'});
+        this.hasMany(models.CareRelationship, { foreignKey: "fkPet", as: 'cares' });
     }
 
 }

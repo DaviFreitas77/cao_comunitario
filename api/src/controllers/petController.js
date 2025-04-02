@@ -69,16 +69,16 @@ module.exports = {
 
     async store(req, res) {
         try {
-            const { namePet, aboutPet, typePet, imagePet, genderPet, agePet, fkTemperament, fkCare } = req.body;
+            const { namePet, aboutPet, typePet, imagePet, genderPet, agePet, fkTemperament, fkCare,city } = req.body;
 
 
-            if (!namePet || !typePet || !imagePet || !genderPet || !agePet || !fkTemperament || !fkCare) {
+            if (!namePet || !typePet || !imagePet || !genderPet || !agePet || !fkTemperament || !fkCare || !city) {
                 return res.status(400).json({ message: "preencha todos os campos" });
             }
 
             const userId = req.userId;
 
-            const pet = await Pet.create({ namePet, aboutPet, typePet, imagePet, genderPet, agePet, onwerPet: userId })
+            const pet = await Pet.create({ namePet, aboutPet, typePet, imagePet, genderPet, agePet, onwerPet: userId,city})
 
             if (Array.isArray(fkCare)) {
                 fkCare.forEach(async (care) => {
