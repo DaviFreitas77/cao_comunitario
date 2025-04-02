@@ -2,6 +2,7 @@ import { View, Text, Image } from "react-native"
 import * as SecureStore from 'expo-secure-store'
 import { useContext, useEffect } from "react";
 import { Context } from "@/src/context/provider";
+import { StatusBar } from "react-native";
 export default function Home() {
   const context = useContext(Context)
   if (!context) {
@@ -33,13 +34,13 @@ export default function Home() {
 
 
   return (
-    <View 
-    style={{flex:1,backgroundColor:'white'}}
-    className="p-2">
+    <View
+      style={{ flex: 1, backgroundColor: 'white' }}
+      className="p-2">
       <View className="flex-row items-center w-full justify-between ">
         <View>
           <Text className="text-2xl color-gray-500">Olá</Text>
-          <Text className="text-lg text-3xl">{name}</Text>
+          <Text className="text-3xl">{name}</Text>
         </View>
         <Image
           source={{ uri: image }}
@@ -47,11 +48,16 @@ export default function Home() {
         />
       </View>
       <View className="mt-4">
-        <Image 
-        source={require('../../../assets/images/carrossel/cat.jpg')}
-        className="w-full h-60 rounded" 
+        <Image
+          source={require('../../../assets/images/carrossel/cat.jpg')}
+          className="w-full h-60 rounded"
         />
       </View>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="#CCF4DC"
+
+      />
     </View>
   )
 }
