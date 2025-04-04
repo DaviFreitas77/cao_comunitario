@@ -8,14 +8,35 @@ import { useState } from "react";
 import Categories from "@/src/components/categories";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { loadPet } from "@/src/api/petService";
+
+interface Pet {
+  id: number;
+  namePet: string;
+  imagePet: string;
+  aboutPet: string;
+  gender: {
+    nameGender: string;
+  };
+  age: {
+    nameAge: string;
+  };
+  type: {
+    id: number;
+    nameType: string;
+  };
+}
+
 export default function Home() {
-  const { pets, isLoading, error } = loadPet()
+  const { pets, isLoading, error } = loadPet() as { pets: Pet[], isLoading: boolean, error: any };
   const context = useContext(Context)
   if (!context) {
     throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
   }
 
   const { setName, setImage, name, image, location } = context
+  const [selectedType, setSelectedType] = useState<string | null>(null); 
+  const filteredPets = selectedType ? pets.filter(pet => pet.type.nameType === selectedType) : pets;
+
 
   useEffect(() => {
     const loadUserData = async () => {
@@ -67,7 +88,7 @@ export default function Home() {
         />
       </View>
 
-      <Categories />
+      <Categories setSelectedType={setSelectedType} />
       <View className="flex-row items-center py-4">
         <Text>
           <MaterialIcons name="location-on" size={24} color="red" />
@@ -79,7 +100,7 @@ export default function Home() {
       <View className="">
         {pets.length > 0 ? (
           <FlatList
-            data={pets}
+            data={filteredPets}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
               <View className="bg-white shadow-lg rounded-2xl p-4 mb-4">
