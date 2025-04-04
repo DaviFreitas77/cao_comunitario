@@ -7,7 +7,9 @@ class User extends Model{
             password:DataTypes.STRING,
             email:DataTypes.STRING,
             number:DataTypes.STRING,
-            image:DataTypes.STRING
+            image:DataTypes.STRING,
+            city:DataTypes.STRING,
+            isLogged:DataTypes.BOOLEAN
         },{
             sequelize,
             hooks:{

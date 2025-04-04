@@ -7,16 +7,42 @@ import { ref, getDownloadURL, uploadBytes } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios'
 import * as SecureStore from 'expo-secure-store';
-
+import * as Location from 'expo-location';
 
 export default function RegisterPhoto() {
     const context = useContext(Context);
+    const [errorMsg, setErrorMsg] = useState<string | null>(null);
     const [loading, setLoading] = useState(false)
     if (!context) {
         throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
     }
 
-    const { name, email, password, number,url} = context;
+    const { name, email, password, number, url, location, setLocation } = context;
+
+
+    async function getCurrentLocation() {
+        try {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                setErrorMsg('Permissão não autorizada');
+                return;
+            }
+            let location = await Location.getCurrentPositionAsync({});
+            let address = await Location.reverseGeocodeAsync(location.coords);
+            if (address.length > 0) {
+                console.log(address[0].region);
+                setLocation(address[0].region || 'Localização desconhecida');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    useEffect(() => {
+        if (!location) {
+            getCurrentLocation();
+        }
+    }, [location]);
 
     const router = useRouter();
     const opacity = useRef(new Animated.Value(0)).current;
@@ -74,39 +100,39 @@ export default function RegisterPhoto() {
         }
     };
 
-
     const registerUser = async () => {
         setLoading(true)
         try {
-            if (!name || !email || !password || !number || !image) {
-                console.error("Todos os campos são obrigatórios!");
-                return;
+            if (!location) {
+                alert("precisamos da sua localização para continuar")
+                getCurrentLocation()
             }
             const response = await axios.post(`${url}/api/users`, {
                 name,
                 email,
                 password,
                 number,
-                image
+                image,
+                city: location
             });
-     
-        
-            await saveToken(response.data.token,response.data.user.name,response.data.user.number,response.data.user.image,response.data.user.email)
+
+
+            await saveToken(response.data.token, response.data.user.name, response.data.user.number, response.data.user.image, response.data.user.email)
             router.replace('/tabs/home')
         } catch (error) {
-            console.error('erro',error);
+            console.error('erro', error);
         } finally {
             setLoading(false)
         }
     };
 
-    const saveToken = async (token: string,name:string,number:string,image:string,email:string) => {
+    const saveToken = async (token: string, name: string, number: string, image: string, email: string) => {
         try {
             await SecureStore.setItemAsync('jwtToken', token)
             await SecureStore.setItemAsync('name', name)
-            await SecureStore.setItemAsync('number',number)
-            await SecureStore.setItemAsync('image',image)
-            await SecureStore.setItemAsync('email',email)
+            await SecureStore.setItemAsync('number', number)
+            await SecureStore.setItemAsync('image', image)
+            await SecureStore.setItemAsync('email', email)
         } catch (error) {
             console.error('Erro ao salvar token de forma segura:', error);
         }
