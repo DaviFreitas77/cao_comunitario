@@ -33,7 +33,7 @@ export default function TabsLayout() {
           
           tabBarIcon: ({ color, size }) => (
       
-            <FontAwesome6 name="add" size={24} color="black" />
+            <FontAwesome6 name="add" size={24} color={color} />
           
           ),
           tabBarLabel: ({ color }) => (
@@ -49,7 +49,7 @@ export default function TabsLayout() {
         options={{
           title: "Perfil",
           tabBarIcon: ({ color, size }) => (
-            <Feather name="user" size={24} color="black" />
+            <Feather name="user" size={24} color={color} />
           ),
           tabBarLabel: ({ color }) => (
             <Text style={{ color, fontSize: 16 }}>Perfil</Text>  // Altere o tamanho da fonte aqui
@@ -61,7 +61,7 @@ export default function TabsLayout() {
         options={{
           title: "Favoritos",
           tabBarIcon: ({ color, size }) => (
-            <Feather name="heart" size={24} color="black" />
+            <Feather name="heart" size={24} color={color} />
           ),
           tabBarLabel: ({ color }) => (
             <Text style={{ color, fontSize: 16 }}>Favoritos</Text>  // Altere o tamanho da fonte aqui

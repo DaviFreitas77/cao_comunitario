@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "a08e7bca-7b23-4d57-90ae-e1c11ebb4705"
+      }
+    },
+    "android": {
+      "package": "com.faixa.dogcomunity"
+    }
+  }
+}

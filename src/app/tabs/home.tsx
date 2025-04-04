@@ -1,4 +1,4 @@
-import { View, Text, Image } from "react-native"
+import { View, Text, Image, ActivityIndicator, FlatList } from "react-native"
 import * as SecureStore from 'expo-secure-store'
 import { useContext, useEffect } from "react";
 import { Context } from "@/src/context/provider";
@@ -6,16 +6,16 @@ import { StatusBar } from "react-native";
 import * as Location from 'expo-location';
 import { useState } from "react";
 import Categories from "@/src/components/categories";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { loadPet } from "@/src/api/petService";
 export default function Home() {
-
+  const { pets, isLoading, error } = loadPet()
   const context = useContext(Context)
-  const [location, setLocation] = useState<string>('');
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   if (!context) {
     throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
   }
 
-  const { setName, setImage, name, image } = context
+  const { setName, setImage, name, image, location } = context
 
   useEffect(() => {
     const loadUserData = async () => {
@@ -39,31 +39,13 @@ export default function Home() {
   }, [name]);
 
 
-  useEffect(() => {
-    async function getCurrentLocation() {
-      try {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-          setErrorMsg('Permissão não autorizada');
-          return;
-        }
-        let location = await Location.getCurrentPositionAsync({});
-        let address = await Location.reverseGeocodeAsync(location.coords);
-        if (address.length > 0) {
-          console.log(address[0].region);
-          setLocation(address[0].region || 'Localização desconhecida')
-        }
-      } catch (error) {
-        console.error(error)
-      }
+  if (isLoading) {
+    return <ActivityIndicator size="large" color="#0000ff" />;
+  }
 
-
-    }
-
-    getCurrentLocation();
-  }, []);
-
-
+  if (error) {
+    return <Text>Erro ao carregar os pets.</Text>;
+  }
   return (
     <View
       style={{ flex: 1, backgroundColor: 'white' }}
@@ -71,7 +53,7 @@ export default function Home() {
       <View className="flex-row items-center w-full justify-between ">
         <View>
           <Text className="text-2xl color-gray-500">Olá</Text>
-          <Text className="text-3xl">{name}</Text>
+          <Text className="text-2xl">{name}</Text>
         </View>
         <Image
           source={{ uri: image }}
@@ -84,7 +66,54 @@ export default function Home() {
           className="w-full h-60 rounded-2xl"
         />
       </View>
-    <Categories/>
+
+      <Categories />
+      <View className="flex-row items-center py-4">
+        <Text>
+          <MaterialIcons name="location-on" size={24} color="red" />
+        </Text>
+        <Text className="text-lg">
+          {location ? `${location}` : "sem localização"}
+        </Text>
+      </View>
+      <View className="">
+        {pets.length > 0 ? (
+          <FlatList
+            data={pets}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <View className="bg-white shadow-lg rounded-2xl p-4 mb-4">
+                {/* Imagem do pet */}
+                <Image
+                  source={{ uri: item.imagePet }}
+                  style={{ width: "60%", height: 220 }}
+                  className="rounded-xl"
+                />
+
+                {/* Nome e informações */}
+                <View className="mt-3">
+                  <Text className="text-xl font-bold text-gray-800">
+                    {item.namePet}
+                  </Text>
+                  <Text className="text-gray-600 text-sm">
+                    {item.aboutPet}
+                  </Text>
+                </View>
+
+                {/* Infos adicionais */}
+                <View className="flex-row justify-between mt-3">
+                  <Text className="text-sm font-medium text-gray-700">
+                    {item.gender.nameGender} • {item.age.nameAge}
+                  </Text>
+
+                </View>
+              </View>
+            )}
+          />
+        ) : (
+          <Text>Nenhum pet encontrado</Text>
+        )}
+      </View>
       <StatusBar
         barStyle="light-content"
         backgroundColor="#CCF4DC"

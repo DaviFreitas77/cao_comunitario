@@ -18,6 +18,12 @@ interface DogCommunity {
 
     image:string;
     setImage:(newImage:string) => void;
+
+    location:string;
+    setLocation:(newLocation:string) =>void;
+
+    token:string;
+    setToken:(newToken:string) => void;
 }
 
 export const Context = createContext<DogCommunity | undefined>(undefined);
@@ -33,14 +39,16 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     const [password, setPassword] = useState('');
     const [image,setImage] = useState('')
     const [url, setUrl ] = useState('');
+    const [location,setLocation] = useState('')
+    const [token,setToken] = useState('')
 
 
     useEffect(()=>{
-        setUrl('https://90ec-2804-7f0-b900-ed77-5c02-40ec-781f-c95d.ngrok-free.app')
+        setUrl('https://863e-2804-7f0-b900-ed77-483c-f282-6ee2-6d7a.ngrok-free.app')
     },[url])
 
     return (
-        <Context.Provider value={{ name, setName, email, setEmail, number, setNumber, password, setPassword,url,setUrl,image,setImage }}>
+        <Context.Provider value={{ name, setName, email, setEmail, number, setNumber, password, setPassword,url,setUrl,image,setImage,location,setLocation,token,setToken}}>
             {children}
         </Context.Provider>
     );

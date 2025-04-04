@@ -1,14 +1,15 @@
 import { View, Text, Image, Pressable, StatusBar, TextInput, ScrollView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from "react-native";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from "expo-router";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm, Controller } from 'react-hook-form'
 import { Context } from "@/src/context/provider";
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { TextInputMask } from 'react-native-masked-text';
-import * as SecureStore from 'expo-secure-store';
+
 export default function SignUp() {
+
     const router = useRouter();
     const context = useContext(Context);
     if (!context) {
@@ -17,6 +18,7 @@ export default function SignUp() {
 
     const { setName, setEmail, setPassword, setNumber } = context;
 
+   
 
     const validationSchema = yup.object().shape({
         name: yup.string().min(4, "no minimo 4 caracteres").required("o nome é obrigatório"),

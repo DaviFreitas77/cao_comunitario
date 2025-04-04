@@ -1,16 +1,51 @@
 import { View, Text, Image, Pressable, StatusBar, TextInput, ScrollView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from "react-native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useRouter } from "expo-router";
-import * as SecureStore from 'expo-secure-store'
+import * as SecureStore from 'expo-secure-store';
+import * as Location from 'expo-location';
+import { Context } from "../context/provider";
 
 export default function SignIn() {
+    const context = useContext(Context)
+
+    if (!context) {
+        throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
+    }
+
+    const { setLocation, setToken } = context
+    const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+    useEffect(() => {
+        async function getCurrentLocation() {
+            try {
+                let { status } = await Location.requestForegroundPermissionsAsync();
+                if (status !== 'granted') {
+                    setErrorMsg('Permissão não autorizada');
+                    return;
+                }
+                let location = await Location.getCurrentPositionAsync({});
+                let address = await Location.reverseGeocodeAsync(location.coords);
+                if (address.length > 0) {
+                    console.log(address[0].region);
+                    setLocation(address[0].region || 'Localização desconhecida')
+                }
+            } catch (error) {
+                console.error(error)
+            }
+
+
+        }
+
+        getCurrentLocation();
+    }, []);
 
     const router = useRouter();
     useEffect(() => {
         const checkLoggedIn = async () => {
             try {
-                const logged = await SecureStore.getItemAsync('name');
+                const logged = await SecureStore.getItemAsync('jwtToken');
                 if (logged) {
+                    setToken(logged)
                     router.replace('/tabs/home');
                 }
             } catch (error) {
