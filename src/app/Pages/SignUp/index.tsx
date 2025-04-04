@@ -9,7 +9,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { TextInputMask } from 'react-native-masked-text';
 
 export default function SignUp() {
-
     const router = useRouter();
     const context = useContext(Context);
     if (!context) {

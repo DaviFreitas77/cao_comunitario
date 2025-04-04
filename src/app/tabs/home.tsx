@@ -28,13 +28,14 @@ interface Pet {
 
 export default function Home() {
   const { pets, isLoading, error } = loadPet() as { pets: Pet[], isLoading: boolean, error: any };
+ 
   const context = useContext(Context)
   if (!context) {
     throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
   }
 
   const { setName, setImage, name, image, location } = context
-  const [selectedType, setSelectedType] = useState<string | null>(null); 
+  const [selectedType, setSelectedType] = useState<string | null>(null);
   const filteredPets = selectedType ? pets.filter(pet => pet.type.nameType === selectedType) : pets;
 
 

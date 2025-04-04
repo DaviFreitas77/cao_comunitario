@@ -22,7 +22,7 @@ export default function TabsLayout() {
             <Ionicons name="home-outline" size={size} color={color} />
           ),
           tabBarLabel: ({ color }) => (
-            <Text style={{ color, fontSize: 16 }}>Início</Text>  // Altere o tamanho da fonte aqui
+            <Text style={{ color, fontSize: 16 }}>Início</Text>  
           ),
         }}
       />
@@ -44,18 +44,7 @@ export default function TabsLayout() {
           
         }}
       />
-      <Tabs.Screen
-        name="perfil"
-        options={{
-          title: "Perfil",
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="user" size={24} color={color} />
-          ),
-          tabBarLabel: ({ color }) => (
-            <Text style={{ color, fontSize: 16 }}>Perfil</Text>  // Altere o tamanho da fonte aqui
-          ),
-        }}
-      />
+      
       <Tabs.Screen
         name="favorite"
         options={{
@@ -64,7 +53,19 @@ export default function TabsLayout() {
             <Feather name="heart" size={24} color={color} />
           ),
           tabBarLabel: ({ color }) => (
-            <Text style={{ color, fontSize: 16 }}>Favoritos</Text>  // Altere o tamanho da fonte aqui
+            <Text style={{ color, fontSize: 16 }}>Favoritos</Text>  
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="perfil"
+        options={{
+          title: "Perfil",
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="user" size={24} color={color} />
+          ),
+          tabBarLabel: ({ color }) => (
+            <Text style={{ color, fontSize: 16 }}>Perfil</Text>  
           ),
         }}
       />
