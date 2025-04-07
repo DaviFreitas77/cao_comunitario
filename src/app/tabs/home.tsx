@@ -101,22 +101,24 @@ export default function Home() {
           {location ? `${location}` : "sem localização"}
         </Text>
       </View>
-      <View className="">
+      <View>
         {pets.length > 0 ? (
           <FlatList
             data={filteredPets}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
-              <View className="bg-white shadow-lg rounded-2xl p-4 mb-4">
+              <View 
+              style={{backgroundColor:"#dfdfdf"}}
+              className="bg-white shadow-lg rounded-2xl p-1 mb-4 w-72">
                 {/* Imagem do pet */}
                 <Image
                   source={{ uri: item.imagePet }}
-                  style={{ width: "60%", height: 220 }}
+                  style={{ width: "100%", height: 240 }}
                   className="rounded-xl"
                 />
 
                 {/* Nome e informações */}
-                <View className="mt-3">
+                <View className="mt-3 pl-1">
                   <Text className="text-xl font-bold text-gray-800">
                     {item.namePet}
                   </Text>
@@ -126,7 +128,7 @@ export default function Home() {
                 </View>
 
                 {/* Infos adicionais */}
-                <View className="flex-row justify-between mt-3">
+                <View className="flex-row justify-between mt-3 pl-1">
                   <Text className="text-sm font-medium text-gray-700">
                     {item.gender.nameGender} • {item.age.nameAge}
                   </Text>

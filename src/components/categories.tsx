@@ -19,7 +19,9 @@ export default function Categories({ setSelectedType }: CategoriesProps) {
 
 
     return (
-        <View style={{ marginTop: 28, gap: 10 }}>
+        <View 
+        
+        style={{ marginTop: 28, gap: 10 }}>
             <View className="flex-row items-center gap-2">
                 <Text className="text-2xl font-bold text-gray-800">
                     Escolha o que você quer
@@ -42,7 +44,7 @@ export default function Categories({ setSelectedType }: CategoriesProps) {
                             style={{
                                 backgroundColor: buttonFilter === item.nameType ? "#CCF4DC" : "#D9D9D9",
                             }}
-                            className="flex-row items-center gap-2 p-3 w-36 h-20 ml-2 rounded-xl shadow-md"
+                            className="flex-row items-center gap-2 p-3 w-52 h-20 ml-2 rounded-xl shadow-md"
                         >
                             <Image
                                 source={{ uri: item.imageType }}
