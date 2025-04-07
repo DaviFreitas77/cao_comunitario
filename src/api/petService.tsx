@@ -12,7 +12,6 @@ const fetchPet = async (url: string, token: string) => {
         }
     })
     const data = response.data
-    console.log(data)
     return data;
 
 }
@@ -44,7 +43,7 @@ const fetchType = async (url: string) => {
 }
 
 export function loadType() {
-    
+
     const context = useContext(Context)
     if (!context) {
         throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
@@ -85,4 +84,91 @@ export function loadGender() {
     if (error) return { genders: [], isLoading: false, error: error }
 
     return { genders: data, isLoading: false }
+}
+
+
+const fetchAge = async (url: string, token: string) => {
+    const response = await axios.get(`${url}/api/agePet`, {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    })
+
+    const data = response.data;
+    return data;
+}
+
+export const loadAge = () => {
+    const context = useContext(Context)
+
+    if (!context) {
+        throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
+    }
+    const { token, url } = context
+
+    const { data, isLoading, error } = useQuery({
+        queryFn: () => fetchAge(url, token),
+        queryKey: ['ages']
+    })
+
+    if (isLoading) return { ages: [], isLoading: true, error: false }
+    if (error) return { ages: [], isLoading: false, error: error }
+
+    return { ages: data, isLoading: false }
+
+
+}
+
+const fetchCare = async (url: string) => {
+    const response = await axios.get(`${url}/api/care`)
+    const data = response.data;
+    return data;
+
+}
+
+export const loadCare = () => {
+    const context = useContext(Context)
+
+    if (!context) {
+        throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
+    }
+    const { url } = context
+
+    const { data, isLoading, error } = useQuery({
+        queryFn: () => fetchCare(url),
+        queryKey: ['cares']
+    })
+
+    if (isLoading) return { cares: [], isLoading: true, error: false }
+    if (error) return { cares: [], isLoading: false, error: error }
+
+    return { cares: data, isLoading: false }
+}
+
+
+const fetchTemperament = async(url:string)=>{
+    const response = await axios.get(`${url}/api/temperament`)
+    const data = response.data;
+    return data;
+
+}
+
+export const loadTemperament = ()=>{
+    const context = useContext(Context)
+
+    if (!context) {
+        throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
+    }
+    const { url } = context
+
+    const {data,isLoading,error} = useQuery({
+        queryFn:()=>fetchTemperament(url),
+        queryKey:['temperaments']
+
+    })
+    if (isLoading) return { temperaments: [], isLoading: true, error: false }
+    if (error) return { temperaments: [], isLoading: false, error: error }
+
+    return { temperaments: data, isLoading: false }
+
 }
