@@ -22,16 +22,18 @@ export function loadPet() {
     }
 
     const { url, token } = context
-    const { data, isLoading, error } = useQuery({
+    const { data, isLoading, error,refetch } = useQuery({
         queryFn: () => fetchPet(url, token),
         queryKey: ['pets'],
 
     })
 
-    if (isLoading) return { pets: [], isLoading: true, error: false }
-    if (error) return { pets: [], isLoading: false, error: error }
-
-    return { pets: data, isLoading: false }
+    return {
+        pets: data || [],
+        isLoading,
+        error,
+        refetch
+      };
 }
 
 

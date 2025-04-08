@@ -1,4 +1,4 @@
-import { View, Text, Image, ActivityIndicator, FlatList } from "react-native"
+import { View, Text, Image, ActivityIndicator, FlatList,ScrollView} from "react-native"
 import * as SecureStore from 'expo-secure-store'
 import { useContext, useEffect } from "react";
 import { Context } from "@/src/context/provider";
@@ -9,6 +9,8 @@ import Categories from "@/src/components/categories";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { loadPet } from "@/src/api/petService";
 import Avatar from "@/src/components/avatar";
+import { useCallback } from 'react';
+import { useFocusEffect } from "expo-router";
 
 interface Pet {
   id: number;
@@ -25,10 +27,11 @@ interface Pet {
     id: number;
     nameType: string;
   };
+  
 }
 
 export default function Home() {
-  const { pets, isLoading, error } = loadPet() as { pets: Pet[], isLoading: boolean, error: any };
+  const { pets, isLoading, error,refetch  } = loadPet() as { pets: Pet[], isLoading: boolean, error: any ,  refetch: () => void};
 
   const context = useContext(Context)
   if (!context) {
@@ -40,6 +43,7 @@ export default function Home() {
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const filteredPets = selectedType ? pets.filter(pet => pet.type.nameType === selectedType) : pets;
 
+  
 
   useEffect(() => {
     const loadUserData = async () => {
@@ -63,6 +67,12 @@ export default function Home() {
   }, [name]);
 
 
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch(); 
+    }, [])
+  );
   if (isLoading) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -75,6 +85,9 @@ export default function Home() {
     return <Text>Erro ao carregar os pets.</Text>;
   }
   return (
+    <ScrollView>
+
+
     <View
       style={{ flex: 1, backgroundColor: 'white' }}
       className="p-2">
@@ -102,14 +115,16 @@ export default function Home() {
         </Text>
       </View>
       <View>
-        {pets.length > 0 ? (
+        {filteredPets.length > 0 ? (
           <FlatList
+          
+          horizontal
             data={filteredPets}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
-              <View 
-              style={{backgroundColor:"#dfdfdf"}}
-              className="bg-white shadow-lg rounded-2xl p-1 mb-4 w-72">
+              <View
+                style={{ backgroundColor: "#dfdfdf" }}
+                className="bg-white shadow-lg rounded-2xl p-1 mb-4 w-72 mr-4">
                 {/* Imagem do pet */}
                 <Image
                   source={{ uri: item.imagePet }}
@@ -138,7 +153,13 @@ export default function Home() {
             )}
           />
         ) : (
-          <Text>Nenhum pet encontrado</Text>
+          <View className="items-center justify-center">
+            <Text>Nenhum bichinho encontrado na redondeza</Text>
+            <Image
+              source={require('../../../assets/images/home/nenhumpet.png')}
+              style={{ width: 200, height: 300 }}
+            />
+          </View>
         )}
       </View>
       <StatusBar
@@ -147,5 +168,6 @@ export default function Home() {
 
       />
     </View>
+    </ScrollView>
   )
 }
