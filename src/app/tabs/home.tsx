@@ -1,4 +1,4 @@
-import { View, Text, Image, ActivityIndicator, FlatList,ScrollView} from "react-native"
+import { View, Text, Image, ActivityIndicator, FlatList,ScrollView, Pressable} from "react-native"
 import * as SecureStore from 'expo-secure-store'
 import { useContext, useEffect } from "react";
 import { Context } from "@/src/context/provider";
@@ -10,7 +10,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { loadPet } from "@/src/api/petService";
 import Avatar from "@/src/components/avatar";
 import { useCallback } from 'react';
-import { useFocusEffect } from "expo-router";
+import { router, useFocusEffect, useRouter } from "expo-router";
 
 interface Pet {
   id: number;
@@ -33,6 +33,7 @@ interface Pet {
 export default function Home() {
   const { pets, isLoading, error,refetch  } = loadPet() as { pets: Pet[], isLoading: boolean, error: any ,  refetch: () => void};
 
+  const router = useRouter()
   const context = useContext(Context)
   if (!context) {
     throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
@@ -122,7 +123,13 @@ export default function Home() {
             data={filteredPets}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
-              <View
+              <Pressable
+              onPress={() => {
+                router.push({
+                  pathname: "../Pages/infoPet",
+                  params: { id: JSON.stringify(item.id) },
+                });
+              }}
                 style={{ backgroundColor: "#dfdfdf" }}
                 className="bg-white shadow-lg rounded-2xl p-1 mb-4 w-72 mr-4">
                 {/* Imagem do pet */}
@@ -149,7 +156,7 @@ export default function Home() {
                   </Text>
 
                 </View>
-              </View>
+              </Pressable>
             )}
           />
         ) : (
