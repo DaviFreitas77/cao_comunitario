@@ -12,7 +12,7 @@ export default function SignIn() {
     if (!context) {
         throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
     }
-    const { url,setLocation } = context
+    const { url, setLocation } = context
     const router = useRouter()
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
@@ -31,9 +31,9 @@ export default function SignIn() {
                 await SecureStore.setItemAsync('image', response.data.user.image)
                 await SecureStore.setItemAsync('email', response.data.user.email)
                 await SecureStore.setItemAsync('number', response.data.user.number)
-                 setLocation(response.data.user.city)
+                setLocation(response.data.user.city)
                 router.replace('/../tabs/home')
-            }else{
+            } else {
                 alert(response.data.message)
             }
 

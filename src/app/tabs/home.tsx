@@ -39,7 +39,7 @@ export default function Home() {
     throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
   }
 
-  const { setName, setImage, name, image, location } = context
+  const { setName, setImage, name, image, location,setEmail,setNumber } = context
 
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const filteredPets = selectedType ? pets.filter(pet => pet.type.nameType === selectedType) : pets;
@@ -58,6 +58,17 @@ export default function Home() {
         if (imageUser) {
           setImage(imageUser)
         }
+
+        const emailUser = await SecureStore.getItemAsync('email');
+        if(emailUser){
+          setEmail(emailUser)
+        }
+
+        const numberUser = await SecureStore.getItemAsync('number');
+        if(numberUser){
+          setNumber(numberUser)
+        }
+
 
       } catch (error) {
         console.error('Erro ao verificar o token:', error);
@@ -86,7 +97,7 @@ export default function Home() {
     return <Text>Erro ao carregar os pets.</Text>;
   }
   return (
-    <ScrollView>
+    <ScrollView style={{backgroundColor:"#ffff"}}>
 
 
     <View

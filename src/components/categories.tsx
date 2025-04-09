@@ -20,8 +20,8 @@ export default function Categories({ setSelectedType }: CategoriesProps) {
 
     return (
         <View 
-        
-        style={{ marginTop: 28, gap: 10 }}>
+    
+            style={{ marginTop: 28, gap: 10 }}>
             <View className="flex-row items-center gap-2">
                 <Text className="text-2xl font-bold text-gray-800">
                     Escolha o que você quer
