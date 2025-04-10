@@ -39,7 +39,7 @@ export default function Home() {
     throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
   }
 
-  const { setName, setImage, name, image, location,setEmail,setNumber } = context
+  const { setName, setImage, name, image, location,setEmail,setNumber} = context
 
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const filteredPets = selectedType ? pets.filter(pet => pet.type.nameType === selectedType) : pets;

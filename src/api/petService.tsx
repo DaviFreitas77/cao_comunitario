@@ -174,3 +174,33 @@ export const loadTemperament = ()=>{
     return { temperaments: data, isLoading: false }
 
 }
+
+
+
+const fetchIdPet = async (url: string, id: number, token: string) => {
+    const response = await axios.get(`${url}/api/pets/${id}`,{
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        }
+    })
+
+    const data = response.data
+    return data;
+}
+
+
+export const loadIdPet = (id: number) => {
+    const context = useContext(Context)
+    if (!context) {
+        throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
+    }
+
+    const { url, token } = context
+    const { data, isLoading, error } = useQuery({
+        queryFn: () => fetchIdPet(url, id, token),
+        queryKey: ['pet'],
+        enabled: !!id
+    })
+
+    return { pet: data, isLoading, error }
+}
