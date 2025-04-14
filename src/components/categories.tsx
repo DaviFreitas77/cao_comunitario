@@ -9,18 +9,18 @@ interface CategoriesProps {
 }
 
 export default function Categories({ setSelectedType }: CategoriesProps) {
-    const [buttonFilter, setButtonFilter] = useState<string | null>(null); 
+    const [buttonFilter, setButtonFilter] = useState<string | null>(null);
     const { types, isLoading, error } = loadType()
     if (isLoading) {
         return <ActivityIndicator size="large" color="#0000ff" />;
     }
 
-    
+
 
 
     return (
-        <View 
-    
+        <View
+
             style={{ marginTop: 28, gap: 10 }}>
             <View className="flex-row items-center gap-2">
                 <Text className="text-2xl font-bold text-gray-800">
@@ -37,10 +37,10 @@ export default function Categories({ setSelectedType }: CategoriesProps) {
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
                         <TouchableOpacity
-                        onPress={() => {
-                            setButtonFilter(item.nameType);
-                            setSelectedType(item.nameType); 
-                        }}
+                            onPress={() => {
+                                setButtonFilter(item.nameType);
+                                setSelectedType(item.nameType);
+                            }}
                             style={{
                                 backgroundColor: buttonFilter === item.nameType ? "#CCF4DC" : "#D9D9D9",
                             }}

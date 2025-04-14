@@ -4,7 +4,7 @@ import { Context } from "../context/provider";
 import axios from "axios";
 import * as SecureStore from 'expo-secure-store';
 import { router } from "expo-router";
-
+import { queryClient } from "../app/_layout";
 export default function Avatar() {
     const [dropdownVisible, setDropdownVisible] = useState(false);
     const context = useContext(Context)
@@ -34,6 +34,8 @@ export default function Avatar() {
                 const deteledName = await SecureStore.deleteItemAsync('name');
                 const deteledNumber = await SecureStore.deleteItemAsync('number');
                 const deteledEmail = await SecureStore.deleteItemAsync('email');
+                const deleteExpiresAt = await SecureStore.deleteItemAsync('expiresAt');
+                queryClient.clear()
                 router.replace('/');
             }
 

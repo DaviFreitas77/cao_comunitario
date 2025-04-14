@@ -15,7 +15,7 @@ const fetchPet = async (url: string, token: string) => {
     return data;
 
 }
-export function loadPet() {
+export function loadPet(location: string | null) {
     const context = useContext(Context)
     if (!context) {
         throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
@@ -25,7 +25,7 @@ export function loadPet() {
     const { data, isLoading, error,refetch } = useQuery({
         queryFn: () => fetchPet(url, token),
         queryKey: ['pets'],
-
+        enabled:!!location
     })
 
     return {

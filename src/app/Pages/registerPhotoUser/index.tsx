@@ -128,11 +128,14 @@ export default function RegisterPhoto() {
 
     const saveToken = async (token: string, name: string, number: string, image: string, email: string) => {
         try {
+            const now = new Date()
+            const expiresAt = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000)
             await SecureStore.setItemAsync('jwtToken', token)
             await SecureStore.setItemAsync('name', name)
             await SecureStore.setItemAsync('number', number)
             await SecureStore.setItemAsync('image', image)
             await SecureStore.setItemAsync('email', email)
+            await SecureStore.setItemAsync('expiresAt', expiresAt.toISOString())
         } catch (error) {
             console.error('Erro ao salvar token de forma segura:', error);
         }

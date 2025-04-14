@@ -13,17 +13,20 @@ interface DogCommunity {
     password: string;
     setPassword: (newPassword: string) => void;
 
-    url:string;
-    setUrl:(newUrl:string) => void;
+    url: string;
+    setUrl: (newUrl: string) => void;
 
-    image:string;
-    setImage:(newImage:string) => void;
+    image: string;
+    setImage: (newImage: string) => void;
 
-    location:string;
-    setLocation:(newLocation:string) =>void;
+    location: string;
+    setLocation: (newLocation: string) => void;
 
-    token:string;
-    setToken:(newToken:string) => void;
+    token: string;
+    setToken: (newToken: string) => void;
+
+    idUser: string;
+    setIdUser: (newIdUser: string) => void;
 }
 
 export const Context = createContext<DogCommunity | undefined>(undefined);
@@ -37,18 +40,19 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     const [email, setEmail] = useState('');
     const [number, setNumber] = useState('');
     const [password, setPassword] = useState('');
-    const [image,setImage] = useState('')
-    const [url, setUrl ] = useState('');
-    const [location,setLocation] = useState('')
-    const [token,setToken] = useState('')
+    const [image, setImage] = useState('')
+    const [url, setUrl] = useState('');
+    const [location, setLocation] = useState('')
+    const [token, setToken] = useState('')
+    const [idUser, setIdUser] = useState('')
 
 
-    useEffect(()=>{
-        setUrl('https://fa60-2804-7f0-b900-ed77-2501-e992-be8c-e4a2.ngrok-free.app')
-    },[url])
+    useEffect(() => {
+        setUrl('https://0746-2804-7f0-b900-ed77-49ef-51e3-8f05-efca.ngrok-free.app')
+    }, [url])
 
     return (
-        <Context.Provider value={{ name, setName, email, setEmail, number, setNumber, password, setPassword,url,setUrl,image,setImage,location,setLocation,token,setToken}}>
+        <Context.Provider value={{ name, setName, email, setEmail, number, setNumber, password, setPassword, url, setUrl, image, setImage, location, setLocation, token, setToken, idUser, setIdUser }}>
             {children}
         </Context.Provider>
     );

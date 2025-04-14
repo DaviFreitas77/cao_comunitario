@@ -43,11 +43,18 @@ export default function SignIn() {
     useEffect(() => {
         const checkLoggedIn = async () => {
             try {
-                const logged = await SecureStore.getItemAsync('jwtToken');
-                if (logged) {
-                    setToken(logged)
+                const expiresAtString = await SecureStore.getItemAsync('expiresAt');
+                const token = await SecureStore.getItemAsync('jwtToken')
+
+                if (!expiresAtString || !token) return false
+                const now = new Date()
+                const expiresAt = new Date(expiresAtString)
+
+                if (now < expiresAt) {
+                    setToken(token)
                     router.replace('/tabs/home');
                 }
+
             } catch (error) {
                 console.error('Erro ao verificar o token:', error);
             }

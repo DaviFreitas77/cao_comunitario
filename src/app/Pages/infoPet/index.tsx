@@ -1,6 +1,7 @@
-import { Text, View, Image, ScrollView, Pressable,StatusBar } from "react-native";
+import { Text, View, Image, ScrollView, Pressable, StatusBar } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { loadIdPet } from "@/src/api/petService";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function InfoPet() {
   const { id } = useLocalSearchParams();
@@ -19,10 +20,17 @@ export default function InfoPet() {
       />
 
       <ScrollView
->
+      >
         <View className="p-2">
 
-          <Text className="text-3xl font-medium mb-4">{pet.namePet}</Text>
+          <View className="flex-row justify-between">
+            <Text className="text-3xl font-medium mb-4">{pet.namePet}</Text>
+
+            <View className="flex-row">
+              <MaterialIcons name="location-on" size={18} color="red" />
+              <Text className="text-large">{pet.city}</Text>
+            </View>
+          </View>
 
 
           <View className="flex-row flex-wrap justify-between gap-4 mb-6">
@@ -71,30 +79,30 @@ export default function InfoPet() {
         </View>
         {/* Sobre o pet*/}
         <View className="p-4 ">
-        <Text className="text-2xl font-medium mb-2">um pouco sobre {pet.namePet}</Text>
+          <Text className="text-2xl font-medium mb-2">um pouco sobre {pet.namePet}</Text>
           <Text>Esse é um gatinho encantador, cheio de charme e personalidade. Com um olhar curioso e um jeitinho carinhoso, ele adora explorar cantinhos da casa e tirar longas sonecas ao sol. Perfeito para quem busca um companheiro tranquilo, amoroso e cheio de afeto para compartilhar os dias.</Text>
         </View>
         {/* dono*/}
         <View className="p-4 flex-row items-center justify-between">
           <View className="flex-row items-center justify-start">
             <Image
-            source={{uri:pet.onwer.image}}
-            className="w-20 h-20 rounded-full mb-2"
+              source={{ uri: pet.onwer.image }}
+              className="w-20 h-20 rounded-full mb-2"
             />
-                <Text className="text-2xl font-medium mb-2"> {pet.onwer.name}</Text>
+            <Text className="text-2xl font-medium mb-2"> {pet.onwer.name}</Text>
           </View>
 
           <Pressable className=" p-6 flex items-center justify-center rounded bg-[#CCF4DC]">
             <Text>Entrar em contato</Text>
           </Pressable>
-       
+
         </View>
       </ScrollView>
-       <StatusBar
-              barStyle="light-content"
-              backgroundColor="#CCF4DC"
-      
-            />
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="#CCF4DC"
+
+      />
     </View>
   );
 }
