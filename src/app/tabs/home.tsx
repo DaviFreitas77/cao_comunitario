@@ -11,6 +11,7 @@ import { loadPet } from "@/src/api/petService";
 import Avatar from "@/src/components/avatar";
 import { useCallback } from 'react';
 import { router, useFocusEffect, useRouter } from "expo-router";
+import { set } from "react-hook-form";
 
 interface Pet {
   id: number;
@@ -36,7 +37,7 @@ export default function Home() {
     throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
   }
 
-  const { setName, setImage, name, image, location, setEmail, setNumber, token } = context
+  const { setName, setImage, name, image, location, setEmail, setNumber,setToken } = context
   const { pets, isLoading, error, refetch } = loadPet(location) as { pets: Pet[], isLoading: boolean, error: any, refetch: () => void };
 
   const router = useRouter()
@@ -75,6 +76,11 @@ export default function Home() {
         const numberUser = await SecureStore.getItemAsync('number');
         if (numberUser) {
           setNumber(numberUser)
+        }
+
+        const token = await SecureStore.getItemAsync('jwtToken');
+        if (token) {
+          setToken(token)
         }
 
 

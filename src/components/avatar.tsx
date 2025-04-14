@@ -4,14 +4,13 @@ import { Context } from "../context/provider";
 import axios from "axios";
 import * as SecureStore from 'expo-secure-store';
 import { router } from "expo-router";
-import { queryClient } from "../app/_layout";
 export default function Avatar() {
     const [dropdownVisible, setDropdownVisible] = useState(false);
     const context = useContext(Context)
     if (!context) {
         throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
     }
-    const { image, token, url } = context
+    const { image, token, url,setToken} = context
 
 
 
@@ -35,7 +34,7 @@ export default function Avatar() {
                 const deteledNumber = await SecureStore.deleteItemAsync('number');
                 const deteledEmail = await SecureStore.deleteItemAsync('email');
                 const deleteExpiresAt = await SecureStore.deleteItemAsync('expiresAt');
-                queryClient.clear()
+                setToken('')
                 router.replace('/');
             }
 
