@@ -12,18 +12,11 @@ export default function Favorite() {
   console.log(token)
   const { favorites, isLoading, error,refetch } = useFavorites()
   const router = useRouter()
-
-
-
   if (isLoading) return <Text>Loading...</Text>
 
-
-
-
-
+  
   return (
     <View className="bg-[#ffffff] h-full  items-center justify-center">
-
       {favorites.length > 0 ? (
         <FlatList
           showsVerticalScrollIndicator={false}
