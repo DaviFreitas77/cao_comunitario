@@ -4,21 +4,28 @@ import { loadIdPet } from "@/src/api/petService";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import axios from "axios";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Context } from "@/src/context/provider";
 import Toast from 'react-native-toast-message';
 import { useVerifyFavorite } from "@/src/api/useVerifyFavorite";
 
 export default function InfoPet() {
-  const { url, token } = useContext(Context)!
   const { id } = useLocalSearchParams();
   const idPet = parseInt(`${id}`);
+  const [isFavorite, setIsFavorite] = useState(false)
+  const { url, token } = useContext(Context)!
+  const { verifyFavorite, refetch } = useVerifyFavorite(idPet,isFavorite)
   const { pet, isLoading, error } = loadIdPet(idPet);
-  const { verifyFavorite } = useVerifyFavorite(idPet)
 
+
+  useEffect(() => {
+    refetch()
+    setIsFavorite(verifyFavorite)
+  }, [verifyFavorite])
 
   if (isLoading) return <Text className="p-4 text-xl">Carregando...</Text>;
   if (error) return <Text className="p-4 text-xl text-red-500">Erro ao carregar dados</Text>;
+
 
   const showToast = (txt: string, type: string) => {
     Toast.show({
@@ -40,16 +47,39 @@ export default function InfoPet() {
       );
 
       if (response.status === 200) {
-        console.log(response.data);
         showToast('Pet favoritado com sucesso!', 'success');
+        setIsFavorite(true)
+
+      }
+
+    } catch (error: any) {
+      deleteFavorite(id)
+
+
+    }
+  };
+  const deleteFavorite = async (id: number) => {
+    try {
+      const response = await axios.delete(
+        `${url}/api/favorite/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        showToast('Pet removido dos favoritos!', 'success');
+        setIsFavorite(false)
+
+
       }
 
     } catch (error: any) {
       alert(error.response.data.message);
 
     }
-  };
-
+  }
   return (
     <View className="flex-1 bg-white">
 
@@ -62,7 +92,7 @@ export default function InfoPet() {
       <TouchableOpacity
         onPress={() => addFavorite(pet.id)}
         className="absolute right-1 top-3">
-        <AntDesign name={verifyFavorite === 'Pet favoritado!' ? 'heart' : 'hearto'} size={40} color="red" />
+        <AntDesign name={isFavorite ? 'heart' : 'hearto'} size={40} color="red" />
       </TouchableOpacity>
       <ScrollView
       >

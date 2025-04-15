@@ -9,7 +9,6 @@ import { Context } from "@/src/context/provider";
 
 export default function Favorite() {
   const {token} = useContext(Context)!
-  console.log(token)
   const { favorites, isLoading, error,refetch } = useFavorites()
   const router = useRouter()
   if (isLoading) return <Text>Loading...</Text>

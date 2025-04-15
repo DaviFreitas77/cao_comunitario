@@ -5,9 +5,9 @@ import axios from "axios"
 
 
 
-const fetchVerirfyFavorite = async (url: string,token:string,id:number) => {
-    const response = await axios.get(`${url}/api/favorite/${id}`,{
-        headers:{
+const fetchVerirfyFavorite = async (url: string, token: string, id: number) => {
+    const response = await axios.get(`${url}/api/favorite/${id}`, {
+        headers: {
             Authorization: `Bearer ${token}`
         }
     })
@@ -16,13 +16,20 @@ const fetchVerirfyFavorite = async (url: string,token:string,id:number) => {
 
 }
 
-export const useVerifyFavorite = (id:number) => {
-    const {url,token} = useContext(Context)!
-    const {data,isLoading,error} = useQuery({
-        queryKey:['verifyFavorite',id],
-        queryFn:()=>fetchVerirfyFavorite(url,token,id),
-        enabled: !!id
+export const useVerifyFavorite = (id: number,isFavorite:boolean) => {
+    const { url, token } = useContext(Context)!
+    const { data, isLoading, error, refetch } = useQuery({
+        queryKey: ['verifyFavorite', id,isFavorite],
+        queryFn: () => fetchVerirfyFavorite(url, token, id),
+        enabled:!!id,
+
+
     })
 
-    return {verifyFavorite:data,isLoading,error}
+    if (isLoading) return { verifyFavorite: false, isLoading: true, error: false,refetch}
+    if (error) return { verifyFavorite: false, isLoading: false, error: error,refetch}
+
+
+    return { verifyFavorite: data, isLoading: false,refetch}
+
 }
