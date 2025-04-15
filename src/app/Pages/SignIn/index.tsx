@@ -6,6 +6,7 @@ import * as SecureStore from 'expo-secure-store';
 import axios from "axios";
 import { useContext } from "react";
 import { Context } from "@/src/context/provider";
+import { showToast } from "@/src/components/toast";
 
 
 export default function SignIn() {
@@ -46,7 +47,7 @@ export default function SignIn() {
         } catch (error: any) {
             if (error.response) {
               console.log("Erro do backend:", error.response.data);
-              alert(error.response.data.message || 'Erro ao fazer login');
+              showToast(error.response.data.message,'error' );
             } else {
               console.log("Erro inesperado:", error);
               alert('Erro inesperado. Tente novamente.');

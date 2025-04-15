@@ -6,8 +6,9 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import axios from "axios";
 import { useContext, useState, useEffect } from "react";
 import { Context } from "@/src/context/provider";
-import Toast from 'react-native-toast-message';
+
 import { useVerifyFavorite } from "@/src/api/useVerifyFavorite";
+import { showToast } from "@/src/components/toast";
 
 export default function InfoPet() {
   const { id } = useLocalSearchParams();
@@ -26,13 +27,6 @@ export default function InfoPet() {
   if (isLoading) return <Text className="p-4 text-xl">Carregando...</Text>;
   if (error) return <Text className="p-4 text-xl text-red-500">Erro ao carregar dados</Text>;
 
-
-  const showToast = (txt: string, type: string) => {
-    Toast.show({
-      type: type,
-      text1: txt,
-    });
-  }
 
   const addFavorite = async (id: number) => {
     try {
@@ -173,7 +167,7 @@ export default function InfoPet() {
 
         </View>
       </ScrollView>
-      <Toast />
+  
       <StatusBar
         barStyle="light-content"
         backgroundColor="#CCF4DC"
