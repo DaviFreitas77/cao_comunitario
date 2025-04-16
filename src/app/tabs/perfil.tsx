@@ -15,7 +15,7 @@ export default function Perfil() {
     if (!context) {
         throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
     }
-    const { name, image, email,number } = context
+    const { name, image, email, number } = context
 
     return (
         <View className="p-4">
@@ -36,7 +36,7 @@ export default function Perfil() {
 
             <View style={{ borderWidth: 1, borderColor: "#dfdfdf", gap: 2, borderRadius: 15, marginTop: 40 }}>
                 <Pressable
-                onPress={()=> router.push('../Pages/editProfile')}
+                    onPress={() => router.push('../Pages/editProfile')}
                     className="flex-row justify-between p-4"
                     style={{ borderBottomWidth: 1, borderColor: '#dfdfdf' }}
                 >
@@ -46,7 +46,7 @@ export default function Perfil() {
                     <FontAwesome name="user" size={24} color="black" />
                 </Pressable>
                 <Pressable
-                    onPress={()=>router.push('../Pages/aboutUs')}
+                    onPress={() => router.push('../Pages/aboutUs')}
                     className="flex-row justify-between p-4"
                     style={{ borderBottomWidth: 1, borderColor: '#dfdfdf' }}
                 >

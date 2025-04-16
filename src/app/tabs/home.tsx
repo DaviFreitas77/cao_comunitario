@@ -37,7 +37,7 @@ export default function Home() {
     throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
   }
 
-  const { setName, setImage, name, image, location, setEmail, setNumber,setToken } = context
+  const { setName, setImage, name, image, location, setEmail, setNumber,setToken,token } = context
   const { pets, isLoading, error, refetch } = loadPet(location) as { pets: Pet[], isLoading: boolean, error: any, refetch: () => void };
 
   const router = useRouter()
