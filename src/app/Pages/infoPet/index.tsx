@@ -16,12 +16,14 @@ export default function InfoPet() {
   const [isFavorite, setIsFavorite] = useState(false)
   const { url, token } = useContext(Context)!
   const { verifyFavorite, refetch } = useVerifyFavorite(idPet,isFavorite)
+
   const { pet, isLoading, error } = loadIdPet(idPet);
 
 
+
   useEffect(() => {
-    refetch()
     setIsFavorite(verifyFavorite)
+    console.log(verifyFavorite)
   }, [verifyFavorite])
 
   if (isLoading) return <Text className="p-4 text-xl">Carregando...</Text>;
@@ -29,6 +31,7 @@ export default function InfoPet() {
 
 
   const addFavorite = async (id: number) => {
+
     try {
       const response = await axios.post(
         `${url}/api/favorite`,
@@ -47,7 +50,7 @@ export default function InfoPet() {
       }
 
     } catch (error: any) {
-      deleteFavorite(id)
+     console.log(error)
 
 
     }
@@ -70,7 +73,7 @@ export default function InfoPet() {
       }
 
     } catch (error: any) {
-      alert(error.response.data.message);
+      // alert(error.response.data.message);
 
     }
   }

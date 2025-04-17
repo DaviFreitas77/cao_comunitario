@@ -12,7 +12,7 @@ const fetchVerirfyFavorite = async (url: string, token: string, id: number) => {
         }
     })
 
-    return response.data.message;
+    return response.data;
 
 }
 
