@@ -37,7 +37,7 @@ export default function SignIn() {
                 await SecureStore.setItemAsync('number', response.data.user.number)
                 await SecureStore.setItemAsync('expire', expiresAt.toString())
                 await SecureStore.setItemAsync('expiresAt', expiresAt.toISOString())
-                await SecureStore.setItemAsync('idUser',response.data.user.id.toString())
+                setIdUser(response.data.user.id)
                 setLocation(response.data.user.city)
                 router.replace('/../tabs/home')
             } else {

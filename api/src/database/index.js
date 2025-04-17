@@ -12,7 +12,6 @@ const TemperamentPet = require('../models/TemperamentPet')
 const temperamentRelationship = require('../models/TemperamentRelationship')
 const CareRelationship = require('../models/CareRelationship')
 const favorite = require('../models/FavoritePet')
-const messages = require('../models/Messages')
 const connection = new Sequelize(dbConfig);
  
 User.init(connection)
@@ -26,7 +25,7 @@ temperamentRelationship.init(connection)
 CarePet.init(connection)
 CareRelationship.init(connection)
 favorite.init(connection)
-messages.init(connection)
+
 
 Pet.associate(connection.models);
 User.associate(connection.models)
@@ -38,6 +37,6 @@ TemperamentPet.associate(connection.models)
 CareRelationship.associate(connection.models)
 CarePet.associate(connection.models)
 favorite.associate(connection.models)
-messages.associate(connection.models)
+
 
 module.exports = connection;
