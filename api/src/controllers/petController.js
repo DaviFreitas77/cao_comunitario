@@ -11,6 +11,19 @@ const Carepet = require('../models/CarePet')
 module.exports = {
     async index(req, res) {
         try {
+            const userId = req.userId;
+            console.log(userId)
+
+            const locationUser = await User.findOne({where: { id: userId }})
+
+            if (!locationUser) {
+                return res.status(400).json({ message: "Usuário não encontrado" });
+            }
+
+            const  city  = locationUser.city
+           
+           
+            
             const pets = await Pet.findAll({
                 include: [
 
@@ -45,15 +58,18 @@ module.exports = {
                         }
                     },
                     {
-                        model:CareRelationship,
-                        as:"cares",
-                        include:{
-                            model:Carepet,
-                            as:"descCares",
-                            attributes:['nameCare']
+                        model: CareRelationship,
+                        as: "cares",
+                        include: {
+                            model: Carepet,
+                            as: "descCares",
+                            attributes: ['nameCare']
                         }
                     }
                 ]
+                ,where:{
+                    city: city
+                }
             });
 
             if (!pets || pets.length === 0) {
@@ -69,7 +85,7 @@ module.exports = {
 
     async store(req, res) {
         try {
-            const { namePet, aboutPet, typePet, imagePet, genderPet, agePet, fkTemperament, fkCare,city } = req.body;
+            const { namePet, aboutPet, typePet, imagePet, genderPet, agePet, fkTemperament, fkCare, city } = req.body;
 
 
             if (!namePet || !typePet || !imagePet || !genderPet || !agePet || !fkTemperament || !fkCare || !city) {
@@ -78,7 +94,7 @@ module.exports = {
 
             const userId = req.userId;
 
-            const pet = await Pet.create({ namePet, aboutPet, typePet, imagePet, genderPet, agePet, onwerPet: userId,city})
+            const pet = await Pet.create({ namePet, aboutPet, typePet, imagePet, genderPet, agePet, onwerPet: userId, city })
 
             if (Array.isArray(fkCare)) {
                 fkCare.forEach(async (care) => {
@@ -105,5 +121,66 @@ module.exports = {
         } catch (error) {
             console.log(error);
         }
+    },
+
+
+    async getPetId(req, res) {
+        const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ message: "id não encontrado" })
+        }
+
+        const pets = await Pet.findOne({
+            include: [
+                {
+                    model: TypePet,
+                    as: "type",
+                    attributes: ['nameType']
+                },
+                {
+                    model: GenderPet,
+                    as: 'gender',
+                    attributes: ['nameGender']
+                },
+                {
+                    model: AgePet,
+                    as: 'age',
+                    attributes: ['nameAge']
+                },
+                {
+                    model: User,
+                    as: "onwer",
+                    attributes: ["name", "image"]
+                },
+                {
+                    model: TemperamentRelationship,
+                    as: "temperaments",
+                    include: {
+                        model: TemperamentPet, // A tabela de temperamento
+                        as: "temperament",
+                        attributes: ['nameTemperament'] // Traga o campo nameTemperament
+                    }
+                },
+                {
+                    model: CareRelationship,
+                    as: "cares",
+                    include: {
+                        model: Carepet,
+                        as: "descCares",
+                        attributes: ['nameCare']
+                    }
+                }
+
+            ]
+            , where: {
+                id: id
+            },
+        })
+        if (!pets) {
+            return res.status(400).json({ message: "pet não encontrado" })
+        }
+
+        return res.status(200).json(pets)
     }
 };

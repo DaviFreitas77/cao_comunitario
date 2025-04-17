@@ -6,13 +6,15 @@ import * as SecureStore from 'expo-secure-store';
 import axios from "axios";
 import { useContext } from "react";
 import { Context } from "@/src/context/provider";
+import { showToast } from "@/src/components/toast";
+
 
 export default function SignIn() {
     const context = useContext(Context)
     if (!context) {
         throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
     }
-    const { url,setLocation } = context
+    const { url, setLocation,setIdUser } = context
     const router = useRouter()
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
@@ -26,21 +28,31 @@ export default function SignIn() {
         try {
             const response = await axios.post(`${url}/api/login`, data)
             if (response.status === 200) {
+                const now = new Date()
+                const expiresAt = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000)
                 await SecureStore.setItemAsync('jwtToken', response.data.token)
                 await SecureStore.setItemAsync('name', response.data.user.name)
                 await SecureStore.setItemAsync('image', response.data.user.image)
                 await SecureStore.setItemAsync('email', response.data.user.email)
                 await SecureStore.setItemAsync('number', response.data.user.number)
-                 setLocation(response.data.user.city)
+                await SecureStore.setItemAsync('expire', expiresAt.toString())
+                await SecureStore.setItemAsync('expiresAt', expiresAt.toISOString())
+                await SecureStore.setItemAsync('idUser',response.data.user.id.toString())
+                setLocation(response.data.user.city)
                 router.replace('/../tabs/home')
-            }else{
+            } else {
                 alert(response.data.message)
             }
 
-        } catch (error) {
-            console.log(error)
-
-        }
+        } catch (error: any) {
+            if (error.response) {
+              console.log("Erro do backend:", error.response.data);
+              showToast(error.response.data.message,'error' );
+            } else {
+              console.log("Erro inesperado:", error);
+              alert('Erro inesperado. Tente novamente.');
+            }
+          }
     }
 
     return (

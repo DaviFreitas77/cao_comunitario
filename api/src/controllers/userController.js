@@ -6,7 +6,7 @@ const authConfig = require('../config/auth.json');
 
 function generateToken(params = {}) {
     return jwt.sign(params, authConfig.secret, {
-        expiresIn: 86400,
+        expiresIn: 2592000 // 30 dias,
     });
 }
 
@@ -36,7 +36,7 @@ module.exports = {
             const token = generateToken({ id: user.id });
 
             const userId = user.id;
-            await User.update({ is_logged: 1 }, { where: { id: userId } });
+            await User.update({ isLogged: true }, { where: { id: userId } });
 
             return res.status(200).send({
                 message: "Usuário logado com sucesso",
@@ -44,7 +44,7 @@ module.exports = {
                 token
             });
         } catch (error) {
-            console.error("Erro ao buscar usuário:", error); 
+            console.error("Erro ao buscar usuário:", error);
             return res.status(500).send("Erro ao buscar usuário");
         }
     },
@@ -53,11 +53,12 @@ module.exports = {
     async logout(req, res) {
         try {
             const userId = req.userId;
-
+            console.log(userId)
             if (!userId) {
                 return res.status(400).send({ message: "usuario não encontrado" })
             }
             await User.update({ isLogged: 0 }, { where: { id: userId } })
+            return res.status(200).send({ message: "Usuário deslogado com sucesso" })
 
         } catch (error) {
             console.error(error)
@@ -104,16 +105,33 @@ module.exports = {
 
     async update(req, res) {
         try {
-            const { name, password, email } = req.body;
-            const { userId } = req.params;
+            const { name, number, image } = req.body;
+            const idUser = req.userId;
+            console.log("userId recebido:", idUser);
 
-            if (!name || !password || !email) {
-                return res.status(400).send('Campos obrigatórios não preenchidos');
+            if (!name && !number && !image) {
+                return res.status(400).send({ message: 'Campos obrigatórios não preenchidos' });
             }
 
-            await User.update({ name, password, email }, { where: { id: userId } })
-            return res.status(200).send('Usuário atualizado com sucesso');
+            if (!name && number) {
+                await User.update({ number }, { where: { id: idUser } })
+                return res.status(200).send({ message: 'Número atualizado com sucesso' });
+            }
+
+            if (!number && name) {
+                await User.update({ name }, { where: { id: idUser } })
+                return res.status(200).send({ message: 'Nome atualizado com sucesso' });
+            }
+
+            if (image) {
+                await User.update({ image }, { where: { id: idUser } })
+                return res.status(200).send({ message: 'Imagem atualizada com sucesso' });
+            }
+
+            await User.update({ name, number }, { where: { id: idUser } })
+            return res.status(200).send({ message: 'Usuário atualizado com sucesso' });
         } catch (error) {
+            console.error("Erro ao atualizar usuário:", error);
             return res.status(500).send(error);
         }
     },

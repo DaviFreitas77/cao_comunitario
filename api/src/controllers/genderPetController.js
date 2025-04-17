@@ -14,5 +14,18 @@ module.exports = {
         } catch (err) {
             console.log(err)
         }
+    },
+
+    async index(req,res){
+        try {
+            const genders = await  Gender.findAll();
+
+            if(genders.length === 0){
+                return res.status(200).send('Nenhum gênero encontrado')
+            }
+            return res.status(200).send(genders)
+        } catch (error) {
+            console.log(error)
+        }
     }
 }
