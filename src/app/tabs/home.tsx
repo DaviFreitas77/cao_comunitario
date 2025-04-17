@@ -10,7 +10,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { loadPet } from "@/src/api/petService";
 import Avatar from "@/src/components/avatar";
 import { useCallback } from 'react';
-import { router, useFocusEffect, useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import { set } from "react-hook-form";
 
 interface Pet {
@@ -37,8 +37,9 @@ export default function Home() {
     throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
   }
 
-  const { setName, setImage, name, image, location, setEmail, setNumber,setToken,token } = context
+  const { setName, setImage, name, image, location, setEmail, setNumber,setToken,setIdUser } = context
   const { pets, isLoading, error, refetch } = loadPet(location) as { pets: Pet[], isLoading: boolean, error: any, refetch: () => void };
+
 
   const router = useRouter()
 
@@ -81,6 +82,10 @@ export default function Home() {
         const token = await SecureStore.getItemAsync('jwtToken');
         if (token) {
           setToken(token)
+        }
+        const id = await SecureStore.getItemAsync('idUser');
+        if (id) {
+          setIdUser(id)
         }
 
 

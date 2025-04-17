@@ -1,5 +1,5 @@
 import { Text, View, Image, ScrollView, Pressable, StatusBar, TouchableOpacity } from "react-native";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { loadIdPet } from "@/src/api/petService";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -11,12 +11,15 @@ import { useVerifyFavorite } from "@/src/api/useVerifyFavorite";
 import { showToast } from "@/src/components/toast";
 
 export default function InfoPet() {
+  const router = useRouter()
   const { id } = useLocalSearchParams();
   const idPet = parseInt(`${id}`);
   const [isFavorite, setIsFavorite] = useState(false)
   const { url, token } = useContext(Context)!
-  const { verifyFavorite, refetch } = useVerifyFavorite(idPet,isFavorite)
+  const { verifyFavorite, refetch } = useVerifyFavorite(idPet, isFavorite)
   const { pet, isLoading, error } = loadIdPet(idPet);
+
+
 
 
   useEffect(() => {
@@ -126,7 +129,7 @@ export default function InfoPet() {
             {pet.temperaments.map((t: any) => (
               <Text
                 key={t.id}
-                className="text-base font-medium text-center bg-[#CCF4DC] p-4 rounded-2xl w-[45%]"
+                className="text-base font-medium text-center bg-[#CCF4DC] p-4 rounded-2xl w-[30%]"
               >
                 {t.temperament.nameTemperament}
               </Text>
@@ -139,7 +142,7 @@ export default function InfoPet() {
             {pet.cares.map((t: any) => (
               <Text
                 key={t.id}
-                className="text-base font-medium text-center bg-[#CCF4DC] p-4 rounded-2xl w-[45%]"
+                className="text-base font-medium text-center bg-[#CCF4DC] p-4 rounded-2xl w-[30%]"
               >
                 {t.descCares.nameCare}
               </Text>
@@ -161,13 +164,18 @@ export default function InfoPet() {
             <Text className="text-2xl font-medium mb-2"> {pet.onwer.name}</Text>
           </View>
 
-          <Pressable className=" p-6 flex items-center justify-center rounded bg-[#CCF4DC]">
+          <Pressable
+            onPress={() => router.push({
+              pathname: "../Pages/Chat",
+              params: { pet: idPet, ownerPet: pet.onwerPet,image:pet.onwer.image, name: pet.onwer.name }
+            })}
+            className=" p-6 flex items-center justify-center rounded bg-[#CCF4DC]">
             <Text>Entrar em contato</Text>
           </Pressable>
 
         </View>
       </ScrollView>
-  
+
       <StatusBar
         barStyle="light-content"
         backgroundColor="#CCF4DC"

@@ -96,7 +96,7 @@ export default function EditProfile() {
                 setNewName('');
                 setNewNumber('');
                 updateSecureExpo(newName, newNumber, newImage || '')
-               
+
             }
         } catch (error: any) {
             showToast(error.response?.data?.message, 'error');
