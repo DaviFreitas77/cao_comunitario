@@ -44,11 +44,14 @@ export default function TabsLayout() {
           
         }}
       />
-      
       <Tabs.Screen
         name="favorite"
         options={{
-          title: "Favoritos",
+          title: "Meus favoritos",
+          headerShown:true,
+          headerStyle:{
+            backgroundColor:"#CCF4DC",
+          },
           tabBarIcon: ({ color, size }) => (
             <Feather name="heart" size={24} color={color} />
           ),

@@ -14,16 +14,16 @@ module.exports = {
             const userId = req.userId;
             console.log(userId)
 
-            const locationUser = await User.findOne({where: { id: userId }})
+            const locationUser = await User.findOne({ where: { id: userId } })
 
             if (!locationUser) {
                 return res.status(400).json({ message: "Usuário não encontrado" });
             }
 
-            const  city  = locationUser.city
-           
-           
-            
+            const city = locationUser.city
+
+
+
             const pets = await Pet.findAll({
                 include: [
 
@@ -67,7 +67,7 @@ module.exports = {
                         }
                     }
                 ]
-                ,where:{
+                , where: {
                     city: city
                 }
             });
@@ -182,5 +182,6 @@ module.exports = {
         }
 
         return res.status(200).json(pets)
-    }
+    },
+
 };

@@ -46,6 +46,16 @@ export default function Perfil() {
                     <FontAwesome name="user" size={24} color="black" />
                 </Pressable>
                 <Pressable
+                    onPress={() => router.push('../Pages/MyPets')}
+                    className="flex-row justify-between p-4"
+                    style={{ borderBottomWidth: 1, borderColor: '#dfdfdf' }}
+                >
+                    <Text className="text-lg ">
+                        Meus pets
+                    </Text>
+                    <FontAwesome name="user" size={24} color="black" />
+                </Pressable>
+                <Pressable
                     onPress={() => router.push('../Pages/aboutUs')}
                     className="flex-row justify-between p-4"
                     style={{ borderBottomWidth: 1, borderColor: '#dfdfdf' }}
