@@ -19,11 +19,8 @@ export default function InfoPet() {
   const { verifyFavorite, refetch } = useVerifyFavorite(idPet, isFavorite)
   const { pet, isLoading, error } = loadIdPet(idPet);
 
-
-
   useEffect(() => {
     setIsFavorite(verifyFavorite)
-    console.log(verifyFavorite)
   }, [verifyFavorite])
 
   if (isLoading) return <Text className="p-4 text-xl">Carregando...</Text>;
@@ -31,7 +28,6 @@ export default function InfoPet() {
 
 
   const addFavorite = async (id: number) => {
-
     try {
       const response = await axios.post(
         `${url}/api/favorite`,
@@ -49,13 +45,22 @@ export default function InfoPet() {
 
       }
 
-    } catch (error: any) {
-     console.log(error)
 
-
+    }  catch (error: any) {
+      if (error.response) {
+        if (error.response.status == 400) {
+          deleteFavorite(id)
+        } else {
+          console.log("Erro desconhecido:", error);
+        }
+      } else {
+        console.log("Erro de rede ou servidor não responde:", error);
+      }
     }
   };
+  
   const deleteFavorite = async (id: number) => {
+    console.log(id)
     try {
       const response = await axios.delete(
         `${url}/api/favorite/${id}`,
@@ -73,7 +78,9 @@ export default function InfoPet() {
       }
 
     } catch (error: any) {
-      // alert(error.response.data.message);
+      if(error.response){
+        console.log(error.response.status.message)
+      }
 
     }
   }
