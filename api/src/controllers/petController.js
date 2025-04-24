@@ -228,4 +228,18 @@ module.exports = {
 
     },
 
+    async deleteMyPet(req,res){
+        const {idPet} = req.params;
+        const idUser = req.userId
+
+        if(!idPet){
+            return res.status(400).send({message:"erro,pet não encontrado"})
+        }
+
+        const pet = await Pet.findOne({where:{id:idPet,onwerPet:idUser}})
+
+        pet.destroy()
+        return res.status(200).send({message:"pet deletado com sucesso"})
+
+    }
 };
