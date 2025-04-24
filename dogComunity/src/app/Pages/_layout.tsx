@@ -32,6 +32,24 @@ export default function PagesLayout() {
           headerShown: true,
         }}
       />
+      <Stack.Screen
+        name="SignIn/index"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="SignUp/index"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="registerPhotoUser/index"
+        options={{
+          headerShown: false,
+        }}
+      />
 
     </Stack>
   );

@@ -2,11 +2,40 @@ import { useMyPets } from "@/src/api/useMyPets";
 import { useRouter } from "expo-router";
 import { View, Text, FlatList, Pressable, Image, TouchableOpacity, Alert } from "react-native";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import axios from "axios";
+import { useContext, useState } from "react";
+import { Context } from "@/src/context/provider";
+import { showToast } from "@/src/components/toast";
 
 
 export default function MyPets() {
   const router = useRouter()
-  const { myPets, isLoading, error } = useMyPets()
+  const [refetchCount, setRefetchCount] = useState(0);
+  const { myPets, isLoading, error } = useMyPets(refetchCount)
+  const { url, token } = useContext(Context)!
+
+
+  const deleteMyPet = async (id: number) => {
+    try {
+      const response = await axios.delete(`${url}/api/pets/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+
+      if (response.status === 200) {
+        showToast(response.data.message, 'success',)
+        setRefetchCount(prev =>prev +1)
+      }
+    } catch (error: any) {
+      if (error.response.status === 400) {
+        console.log(error.response.data.message)
+      } else {
+        console.log(error)
+      }
+    }
+  }
 
   return (
     <View>
@@ -18,17 +47,12 @@ export default function MyPets() {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <Pressable
-            onPress={() => {
-              router.push({
-                pathname: "../Pages/infoPet",
-                params: { id: JSON.stringify(item.idPet) },
-              });
-            }}
+
             style={{ backgroundColor: "#dfdfdf" }}
-            className="bg-white shadow-lg rounded-2xl p-1 mb-4 w-60 m-1 ">
+            className="bg-white shadow-lg rounded-2xl p-1 mb-4 w-56 m-1 ">
 
             <Image
-              source={{ uri: item.pet.imagePet }}
+              source={{ uri: item.imagePet }}
               style={{ width: "100%", height: 200 }}
               className="rounded-xl"
             />
@@ -37,7 +61,7 @@ export default function MyPets() {
             <View className="mt-3 pl-1">
               <View className="flex-row justify-between">
                 <Text className="text-xl font-bold text-gray-800">
-                  {item.pet.namePet}
+                  {item.namePet}
                 </Text>
                 <TouchableOpacity
                   onPress={() =>
@@ -51,10 +75,7 @@ export default function MyPets() {
                         },
                         {
                           text: "Excluir",
-                          onPress: () => {
-                            // Chame aqui sua função de exclusão
-                            console.log("Pet excluído");
-                          },
+                          onPress: () => deleteMyPet(item.id),
                         },
                       ],
                       { cancelable: true }
@@ -66,14 +87,14 @@ export default function MyPets() {
               </View>
 
               <Text className="text-gray-600 text-sm">
-                {item.pet.aboutPet}
+                {item.aboutPet}
               </Text>
             </View>
 
 
             <View className="flex-row justify-between mt-3 pl-1">
               <Text className="text-sm font-medium text-gray-700">
-                {item.pet.gender.nameGender} • {item.pet.age.nameAge}
+                {item.gender.nameGender} • {item.age.nameAge}
               </Text>
 
             </View>
