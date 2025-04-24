@@ -7,7 +7,8 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 export default function MyPets() {
   const router = useRouter()
   const { myPets, isLoading, error } = useMyPets()
-  console.log(myPets)
+
+
 
   return (
     <View>
@@ -19,14 +20,8 @@ export default function MyPets() {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <Pressable
-            onPress={() => {
-              router.push({
-                pathname: "../Pages/infoPet",
-                params: { id: JSON.stringify(item.idPet) },
-              });
-            }}
             style={{ backgroundColor: "#dfdfdf" }}
-            className="bg-white shadow-lg rounded-2xl p-1 mb-4 w-60 m-1 ">
+            className="bg-white shadow-lg rounded-2xl p-1 mb-4 w-56 m-1 ">
 
             <Image
               source={{ uri: item.imagePet }}
