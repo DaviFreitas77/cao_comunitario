@@ -1,4 +1,4 @@
-import { Text, View, Image, ScrollView, Pressable, StatusBar, TouchableOpacity } from "react-native";
+import { Text, View, Image, ScrollView, Pressable, StatusBar, TouchableOpacity, Linking } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { loadIdPet } from "@/src/api/petService";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -15,7 +15,7 @@ export default function InfoPet() {
   const { id } = useLocalSearchParams();
   const idPet = parseInt(`${id}`);
   const [isFavorite, setIsFavorite] = useState(false)
-  const { url, token } = useContext(Context)!
+  const { url, token, number } = useContext(Context)!
   const { verifyFavorite, refetch } = useVerifyFavorite(idPet, isFavorite)
   const { pet, isLoading, error } = loadIdPet(idPet);
 
@@ -46,7 +46,7 @@ export default function InfoPet() {
       }
 
 
-    }  catch (error: any) {
+    } catch (error: any) {
       if (error.response) {
         if (error.response.status == 400) {
           deleteFavorite(id)
@@ -58,7 +58,7 @@ export default function InfoPet() {
       }
     }
   };
-  
+
   const deleteFavorite = async (id: number) => {
     try {
       const response = await axios.delete(
@@ -77,12 +77,25 @@ export default function InfoPet() {
       }
 
     } catch (error: any) {
-      if(error.response){
+      if (error.response) {
         console.log(error.response.status.message)
       }
 
     }
   }
+
+
+  const openWhats = (namePet:string) => {
+    const message = encodeURIComponent(`oii,vi seu pet no aplicativo cão comunitario e fiquei interessado em adotar o(a)${namePet}`)
+    let url = `http://api.whatsapp.com/send?phone=55${number}&text=${message}`
+    Linking.openURL(url).then((data) => {
+      console.log('WhatsApp Opened');
+    }).catch((err) => {
+      console.log(err);
+      alert('Make sure Whatsapp installed on your device');
+    });
+  }
+
   return (
     <View className="flex-1 bg-white">
 
@@ -171,10 +184,7 @@ export default function InfoPet() {
           </View>
 
           <Pressable
-            onPress={() => router.push({
-              pathname: "../Pages/Chat",
-              params: { pet: idPet, ownerPet: pet.onwerPet,image:pet.onwer.image, name: pet.onwer.name }
-            })}
+            onPress={()=>openWhats(pet.namePet)}
             className=" p-6 flex items-center justify-center rounded bg-[#CCF4DC]">
             <Text>Entrar em contato</Text>
           </Pressable>
