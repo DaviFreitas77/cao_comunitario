@@ -7,6 +7,7 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 export default function MyPets() {
   const router = useRouter()
   const { myPets, isLoading, error } = useMyPets()
+  console.log(myPets)
 
   return (
     <View>
@@ -28,7 +29,7 @@ export default function MyPets() {
             className="bg-white shadow-lg rounded-2xl p-1 mb-4 w-60 m-1 ">
 
             <Image
-              source={{ uri: item.pet.imagePet }}
+              source={{ uri: item.imagePet }}
               style={{ width: "100%", height: 200 }}
               className="rounded-xl"
             />
@@ -37,7 +38,7 @@ export default function MyPets() {
             <View className="mt-3 pl-1">
               <View className="flex-row justify-between">
                 <Text className="text-xl font-bold text-gray-800">
-                  {item.pet.namePet}
+                  {item.namePet}
                 </Text>
                 <TouchableOpacity
                   onPress={() =>
@@ -66,14 +67,14 @@ export default function MyPets() {
               </View>
 
               <Text className="text-gray-600 text-sm">
-                {item.pet.aboutPet}
+                {item.aboutPet}
               </Text>
             </View>
 
 
             <View className="flex-row justify-between mt-3 pl-1">
               <Text className="text-sm font-medium text-gray-700">
-                {item.pet.gender.nameGender} • {item.pet.age.nameAge}
+                {item.gender.nameGender} • {item.age.nameAge}
               </Text>
 
             </View>

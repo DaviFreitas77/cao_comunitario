@@ -8,6 +8,7 @@ const petController = require('../controllers/petController')
 router.get('/pets',authMiddleware,petController.index);
 router.post('/pets',authMiddleware,petController.store);
 router.get('/pets/:id',authMiddleware,petController.getPetId);
+router.get('/myPets',authMiddleware,petController.myPet)
 
 
 

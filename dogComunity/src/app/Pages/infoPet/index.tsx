@@ -60,7 +60,6 @@ export default function InfoPet() {
   };
   
   const deleteFavorite = async (id: number) => {
-    console.log(id)
     try {
       const response = await axios.delete(
         `${url}/api/favorite/${id}`,

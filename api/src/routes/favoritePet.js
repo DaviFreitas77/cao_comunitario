@@ -7,7 +7,7 @@ routes.post('/favorite', authMiddleware, favoriteController.store);
 routes.get('/favorite', authMiddleware, favoriteController.index);
 routes.get('/favorite/:idPet', authMiddleware, favoriteController.verifyFavorite);
 routes.delete('/favorite/:idPet', authMiddleware, favoriteController.deletedFavorite)
-routes.get('/myPets', authMiddleware, favoriteController.myPet)
+
 
 
 

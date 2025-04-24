@@ -184,4 +184,48 @@ module.exports = {
         return res.status(200).json(pets)
     },
 
+    async myPet(req, res) {
+        try {
+            const idUser = req.userId;
+            console.log(idUser)
+
+            if (!idUser) {
+                return res.status(400).json({ message: "id não encontrado" })
+            }
+            const pets = await Pet.findAll({
+                include: [
+
+                    {
+                        model: AgePet,
+                        as: 'age',
+                        attributes: ['nameAge']
+                    },
+                    {
+                        model: TypePet,
+                        as: 'type',
+                        attributes: ['nameType']
+                    },
+                    {
+                        model: GenderPet,
+                        as: "gender",
+                        attributes: ['nameGender']
+                    }
+
+                ], where: { onwerPet: idUser }
+            })
+
+            if (pets.length === 0) {
+                return res.status(400).send({ message: "nenhum pet encontrado" })
+            }
+            return res.status(200).send(pets)
+        }
+        catch (err) {
+            console.error("Erro ao buscar pets:", err);
+            return res.status(500).json({ error: "Erro interno no servidor" });
+        }
+
+
+
+    },
+
 };
