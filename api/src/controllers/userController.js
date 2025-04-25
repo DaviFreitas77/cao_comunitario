@@ -86,6 +86,17 @@ module.exports = {
             if (!name || !password || !email || !number || !image || !city) {
                 return res.status(400).send('Campos obrigatórios não preenchidos');
             }
+
+            const emailExisting = await User.findOne({ where: { email } })
+            const numberExisting = await User.findOne({ where: { number } })
+            if (emailExisting) {
+                return res.status(400).send('ops,ja existe uma conta associada a esse email');
+            }
+            if (numberExisting) {
+                return res.status(400).send('ja existe uma conta associada a esse numero');
+            }
+
+
             const user = await User.create({ name, password, email, number, image, city });
 
             const token = generateToken({ id: user.id });

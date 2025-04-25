@@ -8,6 +8,7 @@ import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios'
 import * as SecureStore from 'expo-secure-store';
 import * as Location from 'expo-location';
+import { showToast } from "@/src/components/toast";
 
 export default function RegisterPhoto() {
     const context = useContext(Context);
@@ -105,7 +106,8 @@ export default function RegisterPhoto() {
         try {
             if (!location) {
                 alert("precisamos da sua localização para continuar")
-                getCurrentLocation()
+                await getCurrentLocation()
+                return;
             }
             const response = await axios.post(`${url}/api/users`, {
                 name,
@@ -117,10 +119,18 @@ export default function RegisterPhoto() {
             });
 
 
+
             await saveToken(response.data.token, response.data.user.name, response.data.user.number, response.data.user.image, response.data.user.email)
             router.replace('/tabs/home')
-        } catch (error) {
-            console.error('erro', error);
+        } catch (error: any) {
+            if (error.response) {
+                showToast(error.response.data, 'error');
+                router.replace('./SignUp')
+            } else if (error.request) {
+                console.log("Sem resposta do servidor:", error.request);
+            } else {
+                console.log("Erro desconhecido:", error.message);
+            }
         } finally {
             setLoading(false)
         }
