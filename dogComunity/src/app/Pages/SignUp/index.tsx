@@ -1,6 +1,6 @@
-import { View, Text, Image, Pressable, StatusBar, TextInput, ScrollView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { View, Text, Image, Pressable, StatusBar, TextInput, ScrollView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Switch } from "react-native";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { useContext, useEffect, useState } from "react";
 import { useForm, Controller } from 'react-hook-form'
 import { Context } from "@/src/context/provider";
@@ -16,8 +16,9 @@ export default function SignUp() {
     }
 
     const { setName, setEmail, setPassword, setNumber } = context;
+    const [isEnabled, setIsEnable] = useState(false)
 
-   
+
 
     const validationSchema = yup.object().shape({
         name: yup.string().min(4, "no minimo 4 caracteres").required("o nome é obrigatório"),
@@ -39,6 +40,10 @@ export default function SignUp() {
     }
 
 
+
+    const toggleSwitch = () => {
+        setIsEnable(!isEnabled)
+    }
 
     return (
         <KeyboardAvoidingView
@@ -191,20 +196,31 @@ export default function SignUp() {
                                 )}
                             />
                             {errors.password && <Text style={{ color: 'red' }}>{errors.password.message}</Text>}
+
+                            <View className="flex-row items-center">
+                                <Switch
+                                    trackColor={{ false: '#767577', true: 'green' }}
+                                    thumbColor={isEnabled ? 'green' : '#ccc'}
+                                    onValueChange={toggleSwitch}
+                                    value={isEnabled}
+                                />
+                                <Link className="text-cyan-600" href="/Pages/PrivacyPolicy">Politicas e privacidade</Link>
+                            </View>
                         </View>
 
 
 
                         <Pressable
-
-                            onPress={handleSubmit(onSubmit)}
+                            onPress={isEnabled ? handleSubmit(onSubmit) : null}
                             className="w-full p-6 flex items-center justify-center rounded"
                             style={{ backgroundColor: '#CCF4DC' }}
 
                         >
                             <Text className="font-medium text-2xl">Próximo</Text>
                         </Pressable>
+
                     </View>
+
                 </ScrollView>
             </TouchableWithoutFeedback>
         </KeyboardAvoidingView>

@@ -50,6 +50,13 @@ export default function PagesLayout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="PrivacyPolicy/index"
+        options={{
+          headerShown: true,
+          title:"Políticas de privacidade"
+        }}
+      />
 
     </Stack>
   );
