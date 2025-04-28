@@ -1,12 +1,30 @@
 {
   "expo": {
-    "extra": {
-      "eas": {
-        "projectId": "a08e7bca-7b23-4d57-90ae-e1c11ebb4705"
-      }
+    "name": "dogComunity",
+    "slug": "dogComunity",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
     },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "android": {
       "package": "com.faixa.dogcomunity"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7ac1928a-878b-4686-91bc-1f9b313f3550"
+      }
     }
   }
 }
