@@ -13,7 +13,7 @@ import { showToast } from "@/src/components/toast";
 export default function InfoPet() {
   const router = useRouter()
   const { id } = useLocalSearchParams();
-  const idPet = parseInt(`${id}`);
+  const idPet = Number(id); 
   const [isFavorite, setIsFavorite] = useState(false)
   const { url, token, number } = useContext(Context)!
   const { verifyFavorite, refetch } = useVerifyFavorite(idPet, isFavorite)
@@ -85,7 +85,7 @@ export default function InfoPet() {
   }
 
 
-  const openWhats = (namePet:string) => {
+  const openWhats = (namePet: string) => {
     const message = encodeURIComponent(`oii,vi seu pet no aplicativo cão comunitario e fiquei interessado em adotar o(a)${namePet}`)
     let url = `http://api.whatsapp.com/send?phone=55${number}&text=${message}`
     Linking.openURL(url).then((data) => {
@@ -184,7 +184,7 @@ export default function InfoPet() {
           </View>
 
           <Pressable
-            onPress={()=>openWhats(pet.namePet)}
+            onPress={() => openWhats(pet.namePet)}
             className=" p-6 flex items-center justify-center rounded bg-[#CCF4DC]">
             <Text>Entrar em contato</Text>
           </Pressable>
