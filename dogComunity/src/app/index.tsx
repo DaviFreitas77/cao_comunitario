@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 import * as SecureStore from 'expo-secure-store';
 import * as Location from 'expo-location';
 import { Context } from "../context/provider";
+import { OneSignal, LogLevel } from 'react-native-onesignal';
 
 export default function SignIn() {
     const context = useContext(Context)
@@ -14,6 +15,13 @@ export default function SignIn() {
 
     const { setLocation, setToken } = context
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+    useEffect(() => {
+        OneSignal.initialize('9fc8ff2f-7de4-4274-809a-2ce822b6106e');
+        OneSignal.Notifications.requestPermission(true);
+
+    }, []);
+
 
     useEffect(() => {
         async function getCurrentLocation() {

@@ -16,10 +16,10 @@ const fetchVerirfyFavorite = async (url: string, token: string, id: number) => {
 
 }
 
-export const useVerifyFavorite = (id: number,isFavorite:boolean) => {
+export const useVerifyFavorite = (id: number) => {
     const { url, token } = useContext(Context)!
     const { data, isLoading, error, refetch } = useQuery({
-        queryKey: ['verifyFavorite', id,isFavorite],
+        queryKey: ['verifyFavorite', id],
         queryFn: () => fetchVerirfyFavorite(url, token, id),
         enabled:!!id,
 

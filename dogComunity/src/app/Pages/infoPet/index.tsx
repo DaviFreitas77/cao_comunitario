@@ -16,12 +16,15 @@ export default function InfoPet() {
   const idPet = Number(id); 
   const [isFavorite, setIsFavorite] = useState(false)
   const { url, token, number } = useContext(Context)!
-  const { verifyFavorite, refetch } = useVerifyFavorite(idPet, isFavorite)
+  const { verifyFavorite, refetch } = useVerifyFavorite(idPet)
   const { pet, isLoading, error } = loadIdPet(idPet);
 
   useEffect(() => {
-    setIsFavorite(verifyFavorite)
-  }, [verifyFavorite])
+    
+    if (verifyFavorite !== isFavorite) {
+      setIsFavorite(verifyFavorite);
+    }
+  }, [verifyFavorite]); 
 
   if (isLoading) return <Text className="p-4 text-xl">Carregando...</Text>;
   if (error) return <Text className="p-4 text-xl text-red-500">Erro ao carregar dados</Text>;

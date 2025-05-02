@@ -19,7 +19,7 @@ export default function PagesLayout() {
         name="infoPet/index"
         options={{
           title: "Detalhes do pet",
-          headerShown: true,
+          headerShown: false,
           headerStyle:{
             backgroundColor:"#CCF4DC",
           },

@@ -43,8 +43,6 @@ export default function Home() {
 
 
   const router = useRouter()
-
-console.log(token)
   const [selectedType, setSelectedType] = useState<string | null>(null);
 
   const filteredPets = Array.isArray(pets)
