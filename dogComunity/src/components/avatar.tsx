@@ -4,6 +4,7 @@ import { Context } from "../context/provider";
 import axios from "axios";
 import * as SecureStore from 'expo-secure-store';
 import { router } from "expo-router";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 export default function Avatar() {
     const [dropdownVisible, setDropdownVisible] = useState(false);
     const context = useContext(Context)
@@ -34,6 +35,7 @@ export default function Avatar() {
                 const deteledNumber = await SecureStore.deleteItemAsync('number');
                 const deteledEmail = await SecureStore.deleteItemAsync('email');
                 const deleteExpiresAt = await SecureStore.deleteItemAsync('expiresAt');
+               await GoogleSignin.signOut()
                 setToken('')
                 router.replace('/');
             }

@@ -1,5 +1,7 @@
 {
   "expo": {
+    "scheme": "dogcomunity",
+    "name": "Cão comunitário",
     "extra": {
       "eas": {
         "projectId": "2a8cc4af-87a4-4863-9c97-4be00c442da8"
@@ -7,6 +9,12 @@
     },
     "android": {
       "package": "com.faixa.dogcomunity"
-    }
+    },
+    "plugins": [
+      [
+        "@react-native-google-signin/google-signin"
+      ],
+      "expo-secure-store"
+    ]
   }
 }

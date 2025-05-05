@@ -70,6 +70,14 @@ export default function PagesLayout() {
           title:"Políticas de privacidade"
         }}
       />
+       <Stack.Screen
+        name="addNumber"
+        options={{
+          headerShown: false,
+          title:"Políticas de privacidade"
+        }}
+      />
+
 
     </Stack>
   );

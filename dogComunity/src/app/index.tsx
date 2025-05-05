@@ -5,8 +5,33 @@ import * as SecureStore from 'expo-secure-store';
 import * as Location from 'expo-location';
 import { Context } from "../context/provider";
 import { OneSignal, LogLevel } from 'react-native-onesignal';
+import { GoogleSignin, isSuccessResponse } from '@react-native-google-signin/google-signin'
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 export default function SignIn() {
+
+    GoogleSignin.configure({
+        webClientId: '752636989944-b89pn4nut7jnms8hao6pld3322smu3f3.apps.googleusercontent.com',
+    })
+    async function handleGoogleSignin() {
+        try {
+            await GoogleSignin.hasPlayServices()
+
+            const response = await GoogleSignin.signIn()
+
+            if (isSuccessResponse(response)) {
+                const user = response.data.user;
+                console.log(user)
+                await SecureStore.setItemAsync('name', user.name ?? '');
+                await SecureStore.setItemAsync('email', user.email ?? '');
+                await SecureStore.setItemAsync('image', user.photo ?? '');
+                router.push('/Pages/addNumber')
+
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
     const context = useContext(Context)
 
     if (!context) {
@@ -53,6 +78,7 @@ export default function SignIn() {
             try {
                 const expiresAtString = await SecureStore.getItemAsync('expiresAt');
                 const token = await SecureStore.getItemAsync('jwtToken')
+                console.log(token)
 
                 if (!expiresAtString || !token) return false
                 const now = new Date()
@@ -96,13 +122,6 @@ export default function SignIn() {
                         backgroundColor: "white",
                     }}
                 >
-
-                    <View className="flex items-center justify-center">
-                        <Image
-                            source={require('../../assets/images/login/comunitario.png')}
-                            style={{ width: 370, height: 120 }}
-                        />
-                    </View>
                     <Pressable
 
                         onPress={() => router.push('/Pages/SignIn')}
@@ -119,6 +138,19 @@ export default function SignIn() {
                     >
                         <Text className="font-medium text-2xl">Cadastrar</Text>
                     </Pressable>
+                    <Text>ou</Text>
+                    <Pressable
+                            onPress={handleGoogleSignin}
+                            className="w-full p-6 flex-row items-center justify-center rounded"
+                            style={{ backgroundColor: '#CCF4DC' }}
+
+                        >
+                            <Image
+                            source={require('../../assets/images/icons/google.png')}
+                            style={{width:35,height:35,marginRight:15}}
+                            />
+                            <Text className="font-medium text-2xl">Entrar com Google</Text>
+                        </Pressable>
                 </View>
             </ScrollView>
 

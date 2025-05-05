@@ -8,17 +8,16 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { TextInputMask } from 'react-native-masked-text';
 
+
+
 export default function SignUp() {
     const router = useRouter();
     const context = useContext(Context);
     if (!context) {
         throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
     }
-
     const { setName, setEmail, setPassword, setNumber } = context;
     const [isEnabled, setIsEnable] = useState(false)
-
-
 
     const validationSchema = yup.object().shape({
         name: yup.string().min(4, "no minimo 4 caracteres").required("o nome é obrigatório"),
@@ -45,11 +44,14 @@ export default function SignUp() {
         setIsEnable(!isEnabled)
     }
 
+
+    
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={{ flex: 1, backgroundColor: '#CCF4DC' }}
         >
+
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <ScrollView
                     contentContainerStyle={{ flexGrow: 1 }}
@@ -218,6 +220,7 @@ export default function SignUp() {
                         >
                             <Text className="font-medium text-2xl">Próximo</Text>
                         </Pressable>
+                       
 
                     </View>
 

@@ -17,6 +17,7 @@
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
     "@hookform/resolvers": "^5.0.0",
+    "@react-native-google-signin/google-signin": "^13.2.0",
     "@react-navigation/bottom-tabs": "^7.3.5",
     "@react-navigation/elements": "^2.3.3",
     "@react-navigation/native": "^7.1.1",
