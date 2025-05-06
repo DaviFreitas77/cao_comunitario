@@ -7,46 +7,36 @@ import { Context } from "../context/provider";
 import { OneSignal, LogLevel } from 'react-native-onesignal';
 import { GoogleSignin, isSuccessResponse } from '@react-native-google-signin/google-signin'
 import AntDesign from '@expo/vector-icons/AntDesign';
+import axios from "axios";
 
 export default function SignIn() {
-
-    GoogleSignin.configure({
-        webClientId: '752636989944-b89pn4nut7jnms8hao6pld3322smu3f3.apps.googleusercontent.com',
-    })
-    async function handleGoogleSignin() {
-        try {
-            await GoogleSignin.hasPlayServices()
-
-            const response = await GoogleSignin.signIn()
-
-            if (isSuccessResponse(response)) {
-                const user = response.data.user;
-                console.log(user)
-                await SecureStore.setItemAsync('name', user.name ?? '');
-                await SecureStore.setItemAsync('email', user.email ?? '');
-                await SecureStore.setItemAsync('image', user.photo ?? '');
-                router.push('/Pages/addNumber')
-
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
-    const context = useContext(Context)
-
-    if (!context) {
-        throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
-    }
-
-    const { setLocation, setToken } = context
+    const { setLocation, setToken, url } = useContext(Context)!
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
+    const router = useRouter();
 
     useEffect(() => {
-        OneSignal.initialize('9fc8ff2f-7de4-4274-809a-2ce822b6106e');
-        OneSignal.Notifications.requestPermission(true);
+        const checkLoggedIn = async () => {
+            try {
+                const expiresAtString = await SecureStore.getItemAsync('expiresAt');
+                const token = await SecureStore.getItemAsync('jwtToken')
+                console.log(token)
 
-    }, []);
+                if (!expiresAtString || !token) return false
+                const now = new Date()
+                const expiresAt = new Date(expiresAtString)
 
+                if (now < expiresAt) {
+                    setToken(token)
+                    router.replace('/tabs/home');
+                }
+
+            } catch (error) {
+                console.error('Erro ao verificar o token:', error);
+            }
+        };
+
+        checkLoggedIn();
+    }, [router]);
 
     useEffect(() => {
         async function getCurrentLocation() {
@@ -72,30 +62,83 @@ export default function SignIn() {
         getCurrentLocation();
     }, []);
 
-    const router = useRouter();
     useEffect(() => {
-        const checkLoggedIn = async () => {
-            try {
-                const expiresAtString = await SecureStore.getItemAsync('expiresAt');
-                const token = await SecureStore.getItemAsync('jwtToken')
-                console.log(token)
+        OneSignal.initialize('9fc8ff2f-7de4-4274-809a-2ce822b6106e');
+        OneSignal.Notifications.requestPermission(true);
 
-                if (!expiresAtString || !token) return false
-                const now = new Date()
-                const expiresAt = new Date(expiresAtString)
+    }, []);
 
-                if (now < expiresAt) {
-                    setToken(token)
-                    router.replace('/tabs/home');
+
+    GoogleSignin.configure({
+        webClientId: '752636989944-b89pn4nut7jnms8hao6pld3322smu3f3.apps.googleusercontent.com',
+    })
+
+    async function handleGoogleSignin() {
+        try {
+            await GoogleSignin.hasPlayServices()
+
+            const response = await GoogleSignin.signIn()
+
+            if (isSuccessResponse(response)) {
+                const user = response.data.user;
+                const result = await verifyEmailUser(user.email);
+                if (result) {
+                    const { exists, data } = result;
+                    if (exists) {
+                        // salvar os dados que vieram do backend
+                        console.log(data)
+                        const now = new Date()
+                        const expiresAt = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000)
+                        await SecureStore.setItemAsync('name', data.user.name ?? '');
+                        await SecureStore.setItemAsync('email', data.user.email ?? '');
+                        await SecureStore.setItemAsync('image', data.user.image ?? '');
+                        await SecureStore.setItemAsync('number', data.user.number ?? '');
+                        await SecureStore.setItemAsync('jwtToken', data.token ?? '');
+                        await SecureStore.setItemAsync('expiresAt', expiresAt.toISOString())
+                        router.push('/tabs/home');
+                    } else {
+                        // salvar os dados vindos do Google
+                        await SecureStore.setItemAsync('name', user.name ?? '');
+                        await SecureStore.setItemAsync('email', user.email ?? '');
+                        await SecureStore.setItemAsync('image', user.photo ?? '');
+                        router.push('/Pages/addNumber');
+                    }
                 }
-
-            } catch (error) {
-                console.error('Erro ao verificar o token:', error);
+            
             }
-        };
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
-        checkLoggedIn();
-    }, [router]);
+    async function verifyEmailUser(email: string) {
+        try {
+            const response = await axios.get(`${url}/api/verifyuser/${email}`)
+            if (response.status == 200) {
+                return { exists: true, data: response.data };
+            }
+             return { exists: false };
+
+        } catch (error: any) {
+            if (error.response.status == 400) {
+                return { exists: false };
+
+            }
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -140,17 +183,17 @@ export default function SignIn() {
                     </Pressable>
                     <Text>ou</Text>
                     <Pressable
-                            onPress={handleGoogleSignin}
-                            className="w-full p-6 flex-row items-center justify-center rounded"
-                            style={{ backgroundColor: '#CCF4DC' }}
+                        onPress={handleGoogleSignin}
+                        className="w-full p-6 flex-row items-center justify-center rounded"
+                        style={{ backgroundColor: '#CCF4DC' }}
 
-                        >
-                            <Image
+                    >
+                        <Image
                             source={require('../../assets/images/icons/google.png')}
-                            style={{width:35,height:35,marginRight:15}}
-                            />
-                            <Text className="font-medium text-2xl">Entrar com Google</Text>
-                        </Pressable>
+                            style={{ width: 35, height: 35, marginRight: 15 }}
+                        />
+                        <Text className="font-medium text-2xl">Entrar com Google</Text>
+                    </Pressable>
                 </View>
             </ScrollView>
 

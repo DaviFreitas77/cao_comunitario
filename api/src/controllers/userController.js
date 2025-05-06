@@ -157,5 +157,33 @@ module.exports = {
         } catch (error) {
             return res.status(500).send('Erro ao excluir usuário');
         }
+    },
+
+    async userExisting(req, res) {
+        try {
+            const email = req.params.email; 
+
+            const user = await User.findOne({ where: { email } })
+
+            if (!user) {
+                return res.status(400).send({ message: "Usuário não encontrado" })
+            }
+
+            await User.update({isLogged:true},{where:{email}})
+            const token = generateToken({ id: user.id });
+
+            return res.status(200).send({user,token})
+
+
+        } catch (error) {
+            console.log(error)
+        }
+
+
+
+
+
+
     }
+
 }

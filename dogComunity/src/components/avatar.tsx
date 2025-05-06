@@ -24,18 +24,14 @@ export default function Avatar() {
                     "Authorization": `Bearer ${token}`
                 }
             }
-
             )
-
             if (response.status === 200) {
-                const data = response.data
-
+                await GoogleSignin.signOut()
                 const deteledToken = await SecureStore.deleteItemAsync('jwtToken');
                 const deteledName = await SecureStore.deleteItemAsync('name');
                 const deteledNumber = await SecureStore.deleteItemAsync('number');
                 const deteledEmail = await SecureStore.deleteItemAsync('email');
                 const deleteExpiresAt = await SecureStore.deleteItemAsync('expiresAt');
-               await GoogleSignin.signOut()
                 setToken('')
                 router.replace('/');
             }
