@@ -8,6 +8,7 @@ import { OneSignal, LogLevel } from 'react-native-onesignal';
 import { GoogleSignin, isSuccessResponse } from '@react-native-google-signin/google-signin'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import axios from "axios";
+import keys from '../keys.json'
 
 export default function SignIn() {
     const { setLocation, setToken, url } = useContext(Context)!
@@ -19,7 +20,7 @@ export default function SignIn() {
             try {
                 const expiresAtString = await SecureStore.getItemAsync('expiresAt');
                 const token = await SecureStore.getItemAsync('jwtToken')
-                console.log(token)
+            
 
                 if (!expiresAtString || !token) return false
                 const now = new Date()
@@ -49,7 +50,7 @@ export default function SignIn() {
                 let location = await Location.getCurrentPositionAsync({});
                 let address = await Location.reverseGeocodeAsync(location.coords);
                 if (address.length > 0) {
-                    console.log(address[0].region);
+
                     setLocation(address[0].region || 'Localização desconhecida')
                 }
             } catch (error) {
@@ -70,7 +71,7 @@ export default function SignIn() {
 
 
     GoogleSignin.configure({
-        webClientId: '752636989944-b89pn4nut7jnms8hao6pld3322smu3f3.apps.googleusercontent.com',
+        webClientId: keys.googleWebClientId,
     })
 
     async function handleGoogleSignin() {
@@ -86,7 +87,7 @@ export default function SignIn() {
                     const { exists, data } = result;
                     if (exists) {
                         // salvar os dados que vieram do backend
-                        console.log(data)
+                       
                         const now = new Date()
                         const expiresAt = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000)
                         await SecureStore.setItemAsync('name', data.user.name ?? '');
@@ -104,7 +105,7 @@ export default function SignIn() {
                         router.push('/Pages/addNumber');
                     }
                 }
-            
+
             }
         } catch (error) {
             console.log(error)
@@ -117,7 +118,7 @@ export default function SignIn() {
             if (response.status == 200) {
                 return { exists: true, data: response.data };
             }
-             return { exists: false };
+            return { exists: false };
 
         } catch (error: any) {
             if (error.response.status == 400) {
@@ -128,16 +129,6 @@ export default function SignIn() {
 
 
     }
-
-
-
-
-
-
-
-
-
-
 
     return (
         <KeyboardAvoidingView

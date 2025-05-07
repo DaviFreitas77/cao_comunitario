@@ -15,12 +15,11 @@ export default function InfoPet() {
   const { id } = useLocalSearchParams();
   const idPet = Number(id); 
   const [isFavorite, setIsFavorite] = useState(false)
-  const { url, token, number } = useContext(Context)!
+  const { url, token } = useContext(Context)!
   const { verifyFavorite, refetch } = useVerifyFavorite(idPet)
   const { pet, isLoading, error } = loadIdPet(idPet);
 
   useEffect(() => {
-    
     if (verifyFavorite !== isFavorite) {
       setIsFavorite(verifyFavorite);
     }
@@ -90,7 +89,7 @@ export default function InfoPet() {
 
   const openWhats = (namePet: string) => {
     const message = encodeURIComponent(`oii,vi seu pet no aplicativo cão comunitario e fiquei interessado em adotar o(a)${namePet}`)
-    let url = `http://api.whatsapp.com/send?phone=55${number}&text=${message}`
+    let url = `http://api.whatsapp.com/send?phone=55${pet.onwer.number}&text=${message}`
     Linking.openURL(url).then((data) => {
       console.log('WhatsApp Opened');
     }).catch((err) => {

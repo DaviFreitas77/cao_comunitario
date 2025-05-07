@@ -18,8 +18,8 @@ export default function PagesLayout() {
       <Stack.Screen
         name="infoPet/index"
         options={{
-          title: "Detalhes do pet",
-          headerShown: false,
+          title: "Sobre o pet",
+          headerShown: true,
           headerStyle:{
             backgroundColor:"#CCF4DC",
           },

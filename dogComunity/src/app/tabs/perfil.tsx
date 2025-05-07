@@ -70,18 +70,6 @@ export default function Perfil() {
                     style={{ borderBottomWidth: 1, borderColor: '#dfdfdf' }}
                 >
                     <Text className="text-lg ">
-                        Notificações
-                    </Text>
-                    <Text className="text-gray-500">
-                        em breve
-                    </Text>
-                    <MaterialIcons name="notifications" size={24} color="black" />
-                </Pressable>
-                <Pressable
-                    className="flex-row justify-between p-4"
-                    style={{ borderBottomWidth: 1, borderColor: '#dfdfdf' }}
-                >
-                    <Text className="text-lg ">
                         faça uma doação
                     </Text>
                     <Text className="text-gray-500">
