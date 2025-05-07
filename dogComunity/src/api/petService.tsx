@@ -198,7 +198,7 @@ export const loadIdPet = (id: number) => {
     const { url, token } = context
     const { data, isLoading, error } = useQuery({
         queryFn: () => fetchIdPet(url, id, token),
-        queryKey: ['pet'],
+        queryKey: ['pet',id],
         enabled: !!id
     })
 

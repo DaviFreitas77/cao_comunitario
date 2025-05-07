@@ -4,6 +4,7 @@ import { Context } from "../context/provider";
 import axios from "axios";
 import * as SecureStore from 'expo-secure-store';
 import { router } from "expo-router";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 export default function Avatar() {
     const [dropdownVisible, setDropdownVisible] = useState(false);
     const context = useContext(Context)
@@ -23,12 +24,9 @@ export default function Avatar() {
                     "Authorization": `Bearer ${token}`
                 }
             }
-
             )
-
             if (response.status === 200) {
-                const data = response.data
-
+                await GoogleSignin.signOut()
                 const deteledToken = await SecureStore.deleteItemAsync('jwtToken');
                 const deteledName = await SecureStore.deleteItemAsync('name');
                 const deteledNumber = await SecureStore.deleteItemAsync('number');

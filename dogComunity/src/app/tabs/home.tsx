@@ -32,19 +32,13 @@ interface Pet {
 }
 
 export default function Home() {
-  const context = useContext(Context)
-  if (!context) {
-    throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
-  }
 
-  const { setName, setImage, name, image, location, setEmail, setNumber,setToken,setIdUser,token } = context
+  const { setName, setImage, name, image, location, setEmail, setNumber, setToken, setIdUser, token } = useContext(Context)!
   const { pets, isLoading, error, refetch } = loadPet(location) as { pets: Pet[], isLoading: boolean, error: any, refetch: () => void };
 
 
 
   const router = useRouter()
-
-console.log(token)
   const [selectedType, setSelectedType] = useState<string | null>(null);
 
   const filteredPets = Array.isArray(pets)

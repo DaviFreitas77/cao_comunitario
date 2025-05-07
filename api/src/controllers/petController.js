@@ -151,7 +151,7 @@ module.exports = {
                 {
                     model: User,
                     as: "onwer",
-                    attributes: ["name", "image"]
+                    attributes: ["name", "image",'number']
                 },
                 {
                     model: TemperamentRelationship,

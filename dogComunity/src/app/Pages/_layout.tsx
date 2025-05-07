@@ -1,7 +1,11 @@
 // app/Pages/_layout.tsx
-import { Stack } from "expo-router";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { Stack, useRouter } from "expo-router";
+import { TouchableOpacity } from "react-native";
+import { Router } from "expo-router";
 
 export default function PagesLayout() {
+  const router = useRouter()
   return (
     <Stack>
       <Stack.Screen
@@ -14,8 +18,17 @@ export default function PagesLayout() {
       <Stack.Screen
         name="infoPet/index"
         options={{
-          title: "Detalhes do pet",
-          headerShown: false,
+          title: "Sobre o pet",
+          headerShown: true,
+          headerStyle:{
+            backgroundColor:"#CCF4DC",
+          },
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => router.back()} style={{ marginRight:10 }}>
+              <Ionicons name="arrow-back" size={24} color="black" />
+            </TouchableOpacity>
+          ),
+
         }}
       />
       <Stack.Screen
@@ -50,6 +63,21 @@ export default function PagesLayout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="PrivacyPolicy/index"
+        options={{
+          headerShown: true,
+          title:"Políticas de privacidade"
+        }}
+      />
+       <Stack.Screen
+        name="addNumber"
+        options={{
+          headerShown: false,
+          title:"Políticas de privacidade"
+        }}
+      />
+
 
     </Stack>
   );

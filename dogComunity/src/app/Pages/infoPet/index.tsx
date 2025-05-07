@@ -13,15 +13,17 @@ import { showToast } from "@/src/components/toast";
 export default function InfoPet() {
   const router = useRouter()
   const { id } = useLocalSearchParams();
-  const idPet = parseInt(`${id}`);
+  const idPet = Number(id); 
   const [isFavorite, setIsFavorite] = useState(false)
-  const { url, token, number } = useContext(Context)!
-  const { verifyFavorite, refetch } = useVerifyFavorite(idPet, isFavorite)
+  const { url, token } = useContext(Context)!
+  const { verifyFavorite, refetch } = useVerifyFavorite(idPet)
   const { pet, isLoading, error } = loadIdPet(idPet);
 
   useEffect(() => {
-    setIsFavorite(verifyFavorite)
-  }, [verifyFavorite])
+    if (verifyFavorite !== isFavorite) {
+      setIsFavorite(verifyFavorite);
+    }
+  }, [verifyFavorite]); 
 
   if (isLoading) return <Text className="p-4 text-xl">Carregando...</Text>;
   if (error) return <Text className="p-4 text-xl text-red-500">Erro ao carregar dados</Text>;
@@ -85,9 +87,9 @@ export default function InfoPet() {
   }
 
 
-  const openWhats = (namePet:string) => {
+  const openWhats = (namePet: string) => {
     const message = encodeURIComponent(`oii,vi seu pet no aplicativo cão comunitario e fiquei interessado em adotar o(a)${namePet}`)
-    let url = `http://api.whatsapp.com/send?phone=55${number}&text=${message}`
+    let url = `http://api.whatsapp.com/send?phone=55${pet.onwer.number}&text=${message}`
     Linking.openURL(url).then((data) => {
       console.log('WhatsApp Opened');
     }).catch((err) => {
@@ -171,7 +173,7 @@ export default function InfoPet() {
         {/* Sobre o pet*/}
         <View className="p-4 ">
           <Text className="text-2xl font-medium mb-2">um pouco sobre {pet.namePet}</Text>
-          <Text>Esse é um gatinho encantador, cheio de charme e personalidade. Com um olhar curioso e um jeitinho carinhoso, ele adora explorar cantinhos da casa e tirar longas sonecas ao sol. Perfeito para quem busca um companheiro tranquilo, amoroso e cheio de afeto para compartilhar os dias.</Text>
+          <Text>{pet.aboutPet}</Text>
         </View>
         {/* dono*/}
         <View className="p-4 flex-row items-center justify-between">
@@ -184,7 +186,7 @@ export default function InfoPet() {
           </View>
 
           <Pressable
-            onPress={()=>openWhats(pet.namePet)}
+            onPress={() => openWhats(pet.namePet)}
             className=" p-6 flex items-center justify-center rounded bg-[#CCF4DC]">
             <Text>Entrar em contato</Text>
           </Pressable>

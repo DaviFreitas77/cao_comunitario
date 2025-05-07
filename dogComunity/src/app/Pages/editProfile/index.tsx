@@ -11,6 +11,8 @@ import * as ImagePicker from 'expo-image-picker';
 export default function EditProfile() {
 
     const { url, image, email, name, number, token, setImage, setName, setNumber } = useContext(Context)!
+    console.log(number)
+
     const [editName, setEditName] = useState(false)
     const [editNumber, setEditNumber] = useState(false)
     const [newName, setNewName] = useState('')

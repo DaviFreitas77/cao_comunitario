@@ -1,5 +1,5 @@
 import { View, Text, ImageBackground, TextInput, Pressable, FlatList, TouchableOpacity, Image } from "react-native";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -10,6 +10,8 @@ import { loadAge, loadCare, loadGender, loadTemperament, loadType } from "@/src/
 import axios from "axios";
 import { Context } from "@/src/context/provider";
 import { router, useRouter } from "expo-router";
+import { OneSignal, LogLevel } from 'react-native-onesignal';
+//9fc8ff2f-7de4-4274-809a-2ce822b6106e'
 
 
 interface FormData {
@@ -19,9 +21,7 @@ interface FormData {
 
 export default function RegisterPet() {
     const router = useRouter()
-
     const context = useContext(Context)
-
     if (!context) {
         throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
     }
@@ -41,6 +41,8 @@ export default function RegisterPet() {
     const [selectedTemperaments, setSelectedTemperaments] = useState<number[]>([])
     const [image, setImage] = useState<string | null>(null)
     const [about, setAbout] = useState<string>('')
+
+
 
 
     const pickImage = async () => {
@@ -114,7 +116,7 @@ export default function RegisterPet() {
         }
 
         try {
-    
+
             const response = await axios.post(`${url}/api/pets`, {
                 namePet: data.name,
                 typePet: selectedType,
@@ -139,14 +141,39 @@ export default function RegisterPet() {
             setSelectedGender(null)
             setSelectedAge(null)
             setStep(0)
+            sendNotification()
             router.replace('/../tabs/home')
-          
+
 
 
         } catch (error) {
             console.error("Erro ao enviar dados do pet:", error);
         }
     };
+
+
+    async function sendNotification() {
+        try {
+            const response = await fetch("https://onesignal.com/api/v1/notifications", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `os_v2_app_t7ep6l354rbhjae2ftucfnqqn3ixejsijnpur3ezpsa4ulu6cosjlpkw3qq4ll7fzgpodygc3s545byg75fgqbvn26i3h2smw3naliy`
+                },
+                body: JSON.stringify({
+                    app_id: "9fc8ff2f-7de4-4274-809a-2ce822b6106e",
+                    included_segments: ["All"],
+                    headings: { en: "Novo Pet Cadastrado!" },
+                    contents: { en: "Confira o novo pet disponível para adoção." },
+                })
+            });
+
+            const data = await response.json();
+        
+        } catch (error) {
+            console.error("Erro ao enviar notificação:", error);
+        }
+    }
 
 
     return (

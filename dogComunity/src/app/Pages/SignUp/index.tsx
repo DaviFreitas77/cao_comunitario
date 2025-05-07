@@ -1,6 +1,6 @@
-import { View, Text, Image, Pressable, StatusBar, TextInput, ScrollView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { View, Text, Image, Pressable, StatusBar, TextInput, ScrollView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Switch } from "react-native";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { useContext, useEffect, useState } from "react";
 import { useForm, Controller } from 'react-hook-form'
 import { Context } from "@/src/context/provider";
@@ -8,16 +8,16 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { TextInputMask } from 'react-native-masked-text';
 
+
+
 export default function SignUp() {
     const router = useRouter();
     const context = useContext(Context);
     if (!context) {
         throw new Error("Contexto não foi fornecido. Certifique-se de que o componente está dentro de um Context.Provider.");
     }
-
     const { setName, setEmail, setPassword, setNumber } = context;
-
-   
+    const [isEnabled, setIsEnable] = useState(false)
 
     const validationSchema = yup.object().shape({
         name: yup.string().min(4, "no minimo 4 caracteres").required("o nome é obrigatório"),
@@ -40,11 +40,18 @@ export default function SignUp() {
 
 
 
+    const toggleSwitch = () => {
+        setIsEnable(!isEnabled)
+    }
+
+
+    
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={{ flex: 1, backgroundColor: '#CCF4DC' }}
         >
+
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <ScrollView
                     contentContainerStyle={{ flexGrow: 1 }}
@@ -191,20 +198,32 @@ export default function SignUp() {
                                 )}
                             />
                             {errors.password && <Text style={{ color: 'red' }}>{errors.password.message}</Text>}
+
+                            <View className="flex-row items-center">
+                                <Switch
+                                    trackColor={{ false: '#767577', true: 'green' }}
+                                    thumbColor={isEnabled ? 'green' : '#ccc'}
+                                    onValueChange={toggleSwitch}
+                                    value={isEnabled}
+                                />
+                                <Link className="text-cyan-600" href="/Pages/PrivacyPolicy">Politicas e privacidade</Link>
+                            </View>
                         </View>
 
 
 
                         <Pressable
-
-                            onPress={handleSubmit(onSubmit)}
+                            onPress={isEnabled ? handleSubmit(onSubmit) : null}
                             className="w-full p-6 flex items-center justify-center rounded"
                             style={{ backgroundColor: '#CCF4DC' }}
 
                         >
                             <Text className="font-medium text-2xl">Próximo</Text>
                         </Pressable>
+                       
+
                     </View>
+
                 </ScrollView>
             </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
