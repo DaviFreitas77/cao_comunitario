@@ -142,7 +142,7 @@ export default function SignIn() {
             >
                 <StatusBar barStyle="dark-content" backgroundColor="#CCF4DC" />
 
-                <View className="flex-1 items-center justify-center mt-10">
+                <View className="flex-1 items-center justify-center mt-16">
                     <Image
                         source={require('../../assets/images/login/dog.png')}
 
