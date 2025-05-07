@@ -8,7 +8,7 @@ import { OneSignal, LogLevel } from 'react-native-onesignal';
 import { GoogleSignin, isSuccessResponse } from '@react-native-google-signin/google-signin'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import axios from "axios";
-import keys from '../keys.json'
+import keys from '../../keys.json'
 
 export default function SignIn() {
     const { setLocation, setToken, url } = useContext(Context)!
