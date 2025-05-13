@@ -13,9 +13,6 @@ export default function Avatar() {
     }
     const { image, token, url,setToken} = context
 
-
-
-
     const logOut = async () => {
 
         try {
