@@ -161,7 +161,7 @@ module.exports = {
 
     async userExisting(req, res) {
         try {
-            const email = req.params.email; 
+            const email = req.params.email;
 
             const user = await User.findOne({ where: { email } })
 
@@ -169,10 +169,10 @@ module.exports = {
                 return res.status(400).send({ message: "Usuário não encontrado" })
             }
 
-            await User.update({isLogged:true},{where:{email}})
+            await User.update({ isLogged: true }, { where: { email } })
             const token = generateToken({ id: user.id });
 
-            return res.status(200).send({user,token})
+            return res.status(200).send({ user, token })
 
 
         } catch (error) {
