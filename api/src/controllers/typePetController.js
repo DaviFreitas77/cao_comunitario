@@ -1,5 +1,5 @@
 
-const TypePet = require('../models/typePet');
+const TypePet = require('../models/TypePet');
 
 module.exports = {
   async store(req, res) {

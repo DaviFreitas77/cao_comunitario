@@ -1,7 +1,7 @@
 const { verify } = require('jsonwebtoken');
 const FavoritePet = require('../models/FavoritePet');
 const AgePet = require('../models/AgePet');
-const TypePet = require('../models/typePet');
+const TypePet = require('../models/TypePet');
 const GenderPet = require('../models/GenderPet');
 
 

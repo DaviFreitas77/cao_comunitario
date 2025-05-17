@@ -1,6 +1,6 @@
 const Pet = require('../models/Pet');
 const User = require('../models/User');
-const TypePet = require('../models/typePet')
+const TypePet = require('../models/TypePet')
 const AgePet = require('../models/AgePet')
 const GenderPet = require('../models/GenderPet')
 const TemperamentRelationship = require('../models/TemperamentRelationship')

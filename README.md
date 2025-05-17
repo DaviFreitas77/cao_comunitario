@@ -24,3 +24,18 @@ O **Cão Comunitário** é um aplicativo desenvolvido para conectar pessoas que 
 
 ## 🎯 Objetivo do Projeto
 O Cão Comunitário busca incentivar a adoção de animais de forma fácil e acessível, conectando doadores e adotantes em uma plataforma simples e intuitiva.
+
+
+# Como rodar api via docker
+
+## Requisitos
+ Docker instalado: https://www.docker.com/products/docker-desktop/
+
+ ## Para execução
+  1. Clone o repositório https://github.com/DaviFreitas77/cao_comunitario.git
+  2. Navegue até o diretório e rode **cd cao_comunitario/api**
+  3. rode o comando **docker-compose up --build**
+
+  **certifique-se que as portas 3306(mysql) e 3000(api node) estejam livres**
+
+

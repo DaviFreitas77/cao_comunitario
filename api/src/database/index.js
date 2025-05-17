@@ -3,7 +3,7 @@ const dbConfig = require('../config/database');
 
 const User = require('../models/User');
 const Pet = require('../models/Pet');
-const TypePet = require('../models/typePet')
+const TypePet = require('../models/TypePet')
 const age = require('../models/AgePet');
 const gender = require('../models/GenderPet');
 const AgePet = require('../models/AgePet');

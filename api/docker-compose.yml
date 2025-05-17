@@ -17,7 +17,7 @@ services:
     command: >
       sh -c "
         chmod +x /app/wait-for-it.sh &&
-        /app/wait-for-it.sh mysql:3306 --timeout=20 --strict -- 
+        /app/wait-for-it.sh mysql:3306 --timeout=30 --strict -- 
         sh -c 'npx sequelize-cli db:migrate && npm run dev'
       "
   mysql:
