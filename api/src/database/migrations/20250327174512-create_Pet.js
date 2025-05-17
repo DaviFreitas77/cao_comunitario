@@ -4,7 +4,7 @@ const { sequelize } = require('../../models/Pet');
 module.exports = {
   async up (queryInterface, Sequelize) {
     
-    return queryInterface.createTable('Pets', {
+    return queryInterface.createTable('pets', {
       id:{
         type:Sequelize.INTEGER,
         primaryKey:true,

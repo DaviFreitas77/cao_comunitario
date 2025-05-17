@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    return queryInterface.addColumn('typepet', 'imageType', {
+    return queryInterface.addColumn('typePet', 'imageType', {
       type: Sequelize.STRING,
       allowNull: false,
     }

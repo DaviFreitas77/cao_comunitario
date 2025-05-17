@@ -18,7 +18,7 @@ class CareRelationship extends Model{
                 type:DataTypes.INTEGER,
                 allowNull:false,
                 references:{
-                    model:"Pets",
+                    model:"pets",
                     key:"id"
                 }
             }
