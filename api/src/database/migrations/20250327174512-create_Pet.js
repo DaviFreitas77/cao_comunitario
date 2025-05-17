@@ -45,14 +45,14 @@ module.exports = {
         allowNull:false,
         references:{
           model:'agePet',
-          ket:'id'
+          key:'id'
         } 
       },
       onwerPet:{
         type:Sequelize.INTEGER,
         allowNull:false,
         references:{
-          model:'Users',
+          model:'users',
           key:'id'
         },
         onDelete:"CASCADE"

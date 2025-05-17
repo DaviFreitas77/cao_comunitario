@@ -3,7 +3,7 @@ const dbConfig = require('../config/database');
 
 const User = require('../models/User');
 const Pet = require('../models/Pet');
-const typePet = require('../models/typePet');
+const TypePet = require('../models/typePet')
 const age = require('../models/AgePet');
 const gender = require('../models/GenderPet');
 const AgePet = require('../models/AgePet');
@@ -16,7 +16,7 @@ const connection = new Sequelize(dbConfig);
  
 User.init(connection)
 Pet.init(connection)
-typePet.init(connection)
+TypePet.init(connection)
 age.init(connection)
 gender.init(connection)
 Pet.init(connection)
@@ -29,7 +29,7 @@ favorite.init(connection)
 
 Pet.associate(connection.models);
 User.associate(connection.models)
-typePet.associate(connection.models)
+TypePet.associate(connection.models)
 AgePet.associate(connection.models)
 gender.associate(connection.models)
 temperamentRelationship.associate(connection.models)
