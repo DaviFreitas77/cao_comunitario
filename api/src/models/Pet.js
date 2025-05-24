@@ -32,7 +32,8 @@ class Pet extends Model {
             city:DataTypes.STRING
             
         }, {
-            sequelize
+            sequelize,
+            tableName:"pets"
         })
     }
 

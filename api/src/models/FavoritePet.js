@@ -19,7 +19,8 @@ class FavoritePet extends Model{
               }  
             }
         },{
-            sequelize
+            sequelize,
+            tableName:"favoritePets"
         })
     }
 

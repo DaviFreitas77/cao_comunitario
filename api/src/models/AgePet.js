@@ -7,7 +7,7 @@ class AgePet extends Model{
          
         },{
             sequelize,
-            tableName:'agepet'
+            tableName:'agePet'
         })
     }
 

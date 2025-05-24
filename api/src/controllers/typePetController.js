@@ -4,11 +4,11 @@ const TypePet = require('../models/TypePet');
 module.exports = {
   async store(req, res) {
     try {
-      const { nameType } = req.body;
+      const { nameType,imageType } = req.body;
       if (!nameType) {
         return res.status(400).send({ 'message': 'preencha todos os campos' })
       }
-      const type = await TypePet.create({ nameType })
+      const type = await TypePet.create({ nameType,imageType })
       return res.status(200).send({ 'message': 'Tipo de pet cadastrado com sucesso' })
     } catch (error) {
       console.error("Erro ao cadastrar tipo de pet:", error);

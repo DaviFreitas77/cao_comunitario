@@ -10,7 +10,7 @@ class CarePet extends Model{
             },
         },{
             sequelize,
-            tableName:'carepet'
+            tableName:'carePet'
         })
     }
 

@@ -7,7 +7,7 @@ class TemperamentPet extends Model{
             nameTemperament:DataTypes.STRING 
         },{
             sequelize,
-            tableName:"temperamentpet"
+            tableName:"TemperamentPet"
         })
     }
 

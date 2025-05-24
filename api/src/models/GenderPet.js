@@ -7,7 +7,8 @@ class GenderPet extends Model{
             nameGender:DataTypes.STRING,
          
         },{
-            sequelize
+            sequelize,
+            tableName:"genderPets"
         })
     }
 

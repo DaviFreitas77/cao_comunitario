@@ -20,7 +20,7 @@ export default function SignIn() {
             try {
                 const expiresAtString = await SecureStore.getItemAsync('expiresAt');
                 const token = await SecureStore.getItemAsync('jwtToken')
-            
+
 
                 if (!expiresAtString || !token) return false
                 const now = new Date()
@@ -87,7 +87,7 @@ export default function SignIn() {
                     const { exists, data } = result;
                     if (exists) {
                         // salvar os dados que vieram do backend
-                       
+
                         const now = new Date()
                         const expiresAt = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000)
                         await SecureStore.setItemAsync('name', data.user.name ?? '');

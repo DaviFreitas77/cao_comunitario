@@ -12,6 +12,7 @@ class User extends Model{
             isLogged:DataTypes.BOOLEAN
         },{
             sequelize,
+            tableName: 'users',
             hooks:{
                 beforeCreate:(user)=>{
                     const salt = bcrypt.genSaltSync();

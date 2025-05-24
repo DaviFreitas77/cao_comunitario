@@ -6,7 +6,7 @@ const express = require('express');
 const routes = express.Router();
 
 
-routes.post('/agePet',authMiddleware,ageController.store);
+routes.post('/agePet',ageController.store);
 routes.get('/agePet',authMiddleware,ageController.index);
 
 

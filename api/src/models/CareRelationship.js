@@ -9,7 +9,7 @@ class CareRelationship extends Model{
                 type:DataTypes.INTEGER,
                 allowNull:false,
                 references:{
-                    model:'CarePet',
+                    model:'carePet',
                     key:"id"
                 }
             },

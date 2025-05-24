@@ -227,9 +227,10 @@ export default function RegisterPet() {
                         <FlatList
                             horizontal
                             data={genders}
-                            keyExtractor={(item) => item.id.toString()}
+                            keyExtractor={(item) => item.id}
                             renderItem={({ item }) => (
                                 <Pressable
+                                    key={item.id}
                                     onPress={() => setSelectedGender(item.id)}
                                     style={{ backgroundColor: selectedGender === item.id ? "#CCF4DC" : "#FFB800", borderWidth: selectedGender === item.id ? 1 : 0 }}
                                     className="m-7  w-36 h-36 rounded-full items-center justify-center">

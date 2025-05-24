@@ -22,7 +22,7 @@ class TemperamentPetRelationship extends Model {
             }
         }, {
             sequelize,
-            tableName:"temperamentrelationship"
+            tableName:"temperamentRelationship"
         })
     }
 
