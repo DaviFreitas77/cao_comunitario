@@ -11,6 +11,7 @@ router.delete('/users/:userId', userController.delete);
 router.post('/login', userController.login);
 router.post('/logout', authMiddleware, userController.logout);
 router.get('/verifyuser/:email', userController.userExisting);
+router.post('/authGoogle',userController.loginGoogle)
 
 
 

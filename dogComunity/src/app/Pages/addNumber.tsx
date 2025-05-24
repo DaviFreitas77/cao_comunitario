@@ -39,10 +39,9 @@ export default function AddNumber() {
         const image = await SecureStore.getItemAsync('image')
         setLoading(true)
         try {
-            const response = await axios.post(`${url}/api/users`, {
+            const response = await axios.post(`${url}/api/authGoogle`, {
                 name,
                 email,
-                password: '1234',
                 number: data.number,
                 image,
                 city: location
@@ -54,9 +53,7 @@ export default function AddNumber() {
             await SecureStore.setItemAsync('jwtToken', token)
             await SecureStore.setItemAsync('number', data.number)
             await SecureStore.setItemAsync('expiresAt', expiresAt.toISOString())
-
             router.replace('/tabs/home')
-
         } catch (error: any) {
             if (error.response) {
                 showToast(error.response.data, 'error');

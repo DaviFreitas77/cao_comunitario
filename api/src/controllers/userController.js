@@ -24,12 +24,16 @@ module.exports = {
                 });
             }
 
+            if(user.password === null){
+              return  res.status(400).send({message:"Sua conta está vinculada ao google!"})
+            }
+
             const passwordMatch = bcrypt.compareSync(password, user.password);
 
             if (!passwordMatch) {
                 console.log("Senha incorreta para o usuário:", email);
                 return res.status(400).send({
-                    message: 'Senha incorreta'
+                    message: 'e-mail ou senha incorretos'
                 });
             }
 
@@ -97,6 +101,8 @@ module.exports = {
             }
 
 
+
+
             const user = await User.create({ name, password, email, number, image, city });
 
             const token = generateToken({ id: user.id });
@@ -162,26 +168,63 @@ module.exports = {
     async userExisting(req, res) {
         try {
             const email = req.params.email;
-
             const user = await User.findOne({ where: { email } })
+
+
 
             if (!user) {
                 return res.status(400).send({ message: "Usuário não encontrado" })
             }
 
-            await User.update({ isLogged: true }, { where: { email } })
-            const token = generateToken({ id: user.id });
+            if (user.password === null) {
+                console.log("aaaaaa")
+                await User.update({ isLogged: true }, { where: { email } })
+                const token = generateToken({ id: user.id });
 
-            return res.status(200).send({ user, token })
+                return res.status(200).send({ user, token })
+            }
+
+
+            return res.status(400).json("Sua conta não está vinculada ao Google.");
+
 
 
         } catch (error) {
             console.log(error)
         }
 
+    },
+    async loginGoogle(req, res) {
+        try {
+            const { name, email, number, image, city } = req.body;
+
+            if (!name || !email || !number || !image || !city) {
+                return res.json("preencha todos os campos")
+            }
+
+            const userExisting = await User.findOne({ where: { email } })
+
+            if (userExisting) {
+                const token = generateToken({ id: user.id });
+                await User.update({ isLogged: 1 }, { where: { id: user.id } })
+                return res.status(201).send({
+                    user,
+                    token
+                });
+            }
 
 
+            const user = await User.create({ name, email, number, image, city });
+            const token = generateToken({ id: user.id });
+            await User.update({ isLogged: 1 }, { where: { id: user.id } })
+            return res.status(201).send({
+                user,
+                token
+            });
 
+        } catch (error) {
+            console.log(error)
+        }
 
 
     }
