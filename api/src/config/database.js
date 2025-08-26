@@ -1,8 +1,8 @@
 module.exports = {
-    host:"mysql",
+    host:"localhost",
     dialect:"mysql",
     username:"root",
-    password:"senha123",
+    password:"",
     database:"db_cao_comunitario",
     define:{
         timestamps:false,

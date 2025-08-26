@@ -48,7 +48,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
 
 
     useEffect(() => {
-        setUrl('https://68a8-2804-7f0-b901-a861-8478-2bc-94ff-a136.ngrok-free.app')
+        setUrl('https://9a6594d5e7e5.ngrok-free.app')
     }, [url])
 
     return (

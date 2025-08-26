@@ -16,7 +16,6 @@ const fetchMyPets = async (url: string, token: string) => {
 
 
 export const useMyPets = (isRefetch:number) => {
-
     const { url, token } = useContext(Context)!
 
     const { data, isLoading, error } = useQuery({
