@@ -85,15 +85,8 @@ export default function SignIn() {
         >
           <StatusBar barStyle="dark-content" backgroundColor="#CCF4DC" />
 
-          <Pressable
-            onPress={() => router.back()}
-            className="pl-5 pt-5"
-            style={{ backgroundColor: "#CCF4DC" }}
-          >
-            <FontAwesome name="arrow-left" size={24} color="#000" />
-          </Pressable>
-
-          <View className="flex-1 items-center justify-center mt-10">
+  
+          <View className="flex-1 items-center justify-center mt-60">
             <Image
               source={require("../../../../assets/images/login/dog.png")}
               resizeMode="contain"
@@ -112,12 +105,6 @@ export default function SignIn() {
               paddingBottom: 30,
             }}
           >
-            <View className="flex items-center justify-center">
-              <Image
-                source={require("../../../../assets/images/login/comunitario.png")}
-                style={{ width: 370, height: 120 }}
-              />
-            </View>
 
             <View className="w-full">
               <Controller
@@ -127,7 +114,7 @@ export default function SignIn() {
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
                     placeholder="Email"
-                    className="w-full pl-3 p-5 rounded text-lg bg-white"
+                    className="w-full pl-3 p-3 rounded text-sm bg-white"
                     value={value}
                     onBlur={onBlur}
                     onChangeText={onChange}
@@ -151,7 +138,7 @@ export default function SignIn() {
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
                     placeholder="Senha"
-                    className="w-full pl-3 p-5 rounded text-lg bg-white"
+                    className="w-full pl-3 p-3 rounded text-sm bg-white"
                     value={value}
                     onBlur={onBlur}
                     onChangeText={onChange}
@@ -170,10 +157,10 @@ export default function SignIn() {
 
             <Pressable
               onPress={handleSubmit(onSubmit)}
-              className="w-full p-6 flex items-center justify-center rounded"
+              className="w-full p-4 flex items-center justify-center rounded"
               style={{ backgroundColor: "#CCF4DC" }}
             >
-              <Text className="font-medium text-2xl">Entrar</Text>
+              <Text className="font-medium text-base">Entrar</Text>
             </Pressable>
           </View>
         </ScrollView>

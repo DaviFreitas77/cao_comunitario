@@ -48,7 +48,13 @@ export default function PagesLayout() {
       <Stack.Screen
         name="SignIn/index"
         options={{
-          headerShown: false,
+          headerShown: true,
+          title:"",
+          headerStyle:{
+            backgroundColor:"#CCF4DC",
+          
+          },
+        
         }}
       />
       <Stack.Screen

@@ -33,7 +33,6 @@ export default function Avatar() {
         await SecureStore.deleteItemAsync("number");
         await SecureStore.deleteItemAsync("email");
         await SecureStore.deleteItemAsync("expiresAt");
-        setToken("");
         router.replace("/");
       }
     } catch (error) {
