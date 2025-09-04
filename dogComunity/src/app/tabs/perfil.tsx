@@ -37,76 +37,76 @@ export default function Perfil() {
             <View style={{ borderWidth: 1, borderColor: "#dfdfdf", gap: 2, borderRadius: 15, marginTop: 40 }}>
                 <Pressable
                     onPress={() => router.push('../Pages/editProfile')}
-                    className="flex-row justify-between p-4"
+                    className="flex-row justify-between p-4 items-center"
                     style={{ borderBottomWidth: 1, borderColor: '#dfdfdf' }}
                 >
                     <Text className="text-lg ">
                         Editar perfil
                     </Text>
-                    <FontAwesome name="user" size={24} color="black" />
+                    <FontAwesome name="user" size={20} color="black" />
                 </Pressable>
                 <Pressable
                     onPress={() => router.push('../Pages/MyPets')}
-                    className="flex-row justify-between p-4"
+                    className="flex-row justify-between p-4 items-center"
                     style={{ borderBottomWidth: 1, borderColor: '#dfdfdf' }}
                 >
                     <Text className="text-lg ">
                         Meus pets
                     </Text>
-                    <FontAwesome name="user" size={24} color="black" />
+                    <FontAwesome name="user" size={20} color="black" />
                 </Pressable>
                 <Pressable
                     onPress={() => router.push('../Pages/aboutUs')}
-                    className="flex-row justify-between p-4"
+                    className="flex-row justify-between p-4 items-center"
                     style={{ borderBottomWidth: 1, borderColor: '#dfdfdf' }}
                 >
                     <Text className="text-lg ">
                         Sobre nós
                     </Text>
-                    <AntDesign name="exclamationcircle" size={24} color="black" />
+                    <AntDesign name="exclamationcircle" size={20} color="black" />
                 </Pressable>
                 <Pressable
-                    className="flex-row justify-between p-4"
+                    className="flex-row justify-between p-4 items-center"
                     style={{ borderBottomWidth: 1, borderColor: '#dfdfdf' }}
                 >
                     <Text className="text-lg ">
-                        faça uma doação
+                        Faça uma doação
                     </Text>
                     <Text className="text-gray-500">
                         em breve
                     </Text>
-                    <MaterialIcons name="pets" size={24} color="black" />
+                    <MaterialIcons name="pets" size={20} color="black" />
                 </Pressable>
 
             </View>
             <View style={{ borderWidth: 1, borderColor: "#dfdfdf", gap: 2, borderRadius: 15, marginTop: 40 }}>
 
                 <Pressable
-                    className="flex-row justify-between p-4"
+                    className="flex-row justify-between p-4 items-center"
                     style={{ borderBottomWidth: 1, borderColor: '#dfdfdf' }}
                 >
                     <Text className="text-lg ">
                         Nos ajude a melhorar
                     </Text>
-                    <MaterialIcons name="email" size={24} color="black" />
+                    <MaterialIcons name="email" size={20} color="black" />
                 </Pressable>
                 <Pressable
-                    className="flex-row justify-between p-4"
+                    className="flex-row justify-between p-4 items-center"
                     style={{ borderBottomWidth: 1, borderColor: '#dfdfdf' }}
                 >
                     <Text className="text-lg ">
                         Avaliar aplicativo
                     </Text>
-                    <Ionicons name="star-sharp" size={24} color="black" />
+                    <Ionicons name="star-sharp" size={20} color="black" />
                 </Pressable>
                 <Pressable
-                    className="flex-row justify-between p-4"
+                    className="flex-row justify-between p-4 items-center"
                     style={{ borderBottomWidth: 1, borderColor: '#dfdfdf' }}
                 >
                     <Text className="text-lg ">
-                        sair
+                        Sair
                     </Text>
-                    <MaterialIcons name="logout" size={24} color="red" />
+                    <MaterialIcons name="logout" size={20} color="red" />
                 </Pressable>
 
             </View>

@@ -3,15 +3,14 @@ import * as SecureStore from 'expo-secure-store'
 import { useContext, useEffect } from "react";
 import { Context } from "@/src/context/provider";
 import { StatusBar } from "react-native";
-import * as Location from 'expo-location';
 import { useState } from "react";
 import Categories from "@/src/components/categories";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { loadPet } from "@/src/api/petService";
-import Avatar from "@/src/components/avatar";
 import { useCallback } from 'react';
 import { useFocusEffect, useRouter } from "expo-router";
-import { set } from "react-hook-form";
+import Header from "@/src/components/layout/header";
+import Search from "@/src/components/home/search";
 
 interface Pet {
   id: number;
@@ -112,19 +111,12 @@ export default function Home() {
   }
   return (
     <ScrollView style={{ backgroundColor: "#ffff" }}>
-
-
+      <Header/>
+      <Search/>
       <View
         style={{ flex: 1, backgroundColor: 'white' }}
         className="p-2">
-        <View className="flex-row items-center w-full justify-between ">
-          <View>
-            <Text className="text-2xl color-gray-500">Olá</Text>
-            <Text className="text-2xl">{name}</Text>
-          </View>
-          <Avatar />
-        </View>
-        <View className="mt-4">
+        <View>
           <Image
             source={require('../../../assets/images/carrossel/cat.jpg')}
             className="w-full h-60 rounded-2xl"
@@ -155,8 +147,8 @@ export default function Home() {
                       params: { id: JSON.stringify(item.id) },
                     });
                   }}
-                  style={{ backgroundColor: "#dfdfdf" }}
-                  className="bg-white shadow-lg rounded-2xl p-1 mb-4 w-72 mr-4">
+                 
+                  className="bg-[var(--color-primary-100)] shadow-lg rounded-2xl p-1 mb-4 w-72 mr-4">
                   {/* Imagem do pet */}
                   <Image
                     source={{ uri: item.imagePet }}
@@ -186,7 +178,7 @@ export default function Home() {
             />
           ) : (
             <View className="items-center justify-center">
-              <Text>Nenhum bichinho encontrado na redondeza</Text>
+              <Text className="text-xl text-gray-400">Nenhum bichinho encontrado na redondeza</Text>
               <Image
                 source={require('../../../assets/images/home/nenhumpet.png')}
                 style={{ width: 200, height: 300 }}
